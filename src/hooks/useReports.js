@@ -1,0 +1,1 @@
+//fetch, crear reporte, estado loading/error
