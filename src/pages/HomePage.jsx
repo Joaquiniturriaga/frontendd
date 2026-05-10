@@ -3,37 +3,25 @@ import '../styles/pages/HomePages.css'
 import { useNavigate } from 'react-router-dom'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
+import { useReports } from '../hooks/useReports'
+
 import L from 'leaflet'
 
 import ActionButton from '../components/ActionButton/ActionButton'
 
 
 
-const centro = [-33.4489, -70.6693]
+const centro = [-34.1703, -70.7431]
 
 const botones = [
-  {
-    label: 'Reportar incendio',
-    sub: 'Hay un incendio activo ahora',
-    variant: 'red',
-    ruta: '/reportar',
-  },
-  {
-    label: 'Posible foco de incendio',
-    sub: 'Vi algo sospechoso',
-    variant: 'orange',
-    ruta: '/foco',
-  },
-  {
-    label: 'Ver mapa de incendios',
-    sub: 'Incendios activos en tu zona',
-    variant: 'dark',
-    ruta: '/mapa',
-  },
+  { label: 'Reportar incendio',      sub: 'Hay un incendio activo ahora', variant: 'red',    ruta: '/dashboard' },
+  { label: 'Posible foco de incendio', sub: 'Vi algo sospechoso',         variant: 'orange', ruta: '/dashboard' },
+  { label: 'Ver mapa de incendios',  sub: 'Incendios activos en tu zona', variant: 'dark',   ruta: '/map' },
 ]
 
 export default function HomePage() {
   const navigate = useNavigate()
+  const { reports } = useReports()
 
   return (
     <div className="home-container">
@@ -60,21 +48,25 @@ export default function HomePage() {
 
           {/* Mapa — en móvil queda abajo, en desktop ocupa el resto */}
           <div className="home-map-wrapper">
-            <p className="home-map-label">Tu ubicación actual</p>
-            <div className="home-map">
+            <p className="home-map-label">Active fires in the region</p>
+            <div className="home-map" onClick={() => navigate('/map')} style={{ cursor: 'pointer' }}>
               <MapContainer
                 center={centro}
-                zoom={13}
+                zoom={10}
                 className="home-map__tile"
                 zoomControl={false}
+                dragging={false}        
+                scrollWheelZoom={false} 
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution="&copy; OpenStreetMap contributors"
                 />
-                <Marker position={centro}>
-                  <Popup>Tu ubicación</Popup>
-                </Marker>
+                {reports.map(r => (
+                <Marker key={r.id} position={[r.lat, r.lng]}>
+                  <Popup>{r.title}</Popup>
+                  </Marker>
+                ))}
               </MapContainer>
             </div>
           </div>

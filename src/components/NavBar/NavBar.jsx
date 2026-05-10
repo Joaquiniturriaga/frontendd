@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import './NavBar.css'
+import { useAuthContext } from '../../context/AuthContext'
 
 const links = [
-  { label: 'Inicio',              ruta: '/' },
-  { label: 'Mapa de incendios',   ruta: '/' },
+  { label: 'Dashboard',         ruta: '/dashboard' },
+  { label: 'Mapa de incendios', ruta: '/map' },  
+  { label: 'Mi perfil',         ruta: '/profile' },
 ]
 
 export default function NavBar() {
   const [menuAbierto, setMenuAbierto] = useState(false)
+    const { user } = useAuthContext()
+
 
   return (
     <>
@@ -16,7 +20,7 @@ export default function NavBar() {
         <Link to="/" className="navbar__brand">
           <span className="navbar__title">Sistema de Reportes</span>
         </Link>
-
+        {user && (
         <ul className="navbar__links">
           {links.map(({ label, ruta }) => (
             <li key={ruta}>
@@ -30,6 +34,9 @@ export default function NavBar() {
             </li>
           ))}
         </ul>
+                )}
+
+        {user && (
 
         <button
           className="navbar__hamburger"
@@ -40,10 +47,14 @@ export default function NavBar() {
           <span />
           <span />
         </button>
+                )}
+
       </nav>
 
+      {user && (
 
       <div className={`navbar__mobile-menu ${menuAbierto ? 'open' : ''}`}>
+        
         {links.map(({ label, ruta }) => (
           <NavLink
             key={ruta}
@@ -56,6 +67,7 @@ export default function NavBar() {
           </NavLink>
         ))}
       </div>
+      )}
     </>
   )
 }

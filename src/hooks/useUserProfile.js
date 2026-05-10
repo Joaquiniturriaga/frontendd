@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react'
 import { getProfile, updateProfile } from '../api/user.api'
 
-export function userProfile(){
+export function useUserProfile(){
     const [profile, setProfile] = useState(null)
     const [loading , setLoading] = useState(true)
     const [ error, setError]=useState(null)
 
-    useState(()=>{
+    useEffect(()=>{
         getProfile()
         .then(setProfile)
         .catch(err => setError(err.message))

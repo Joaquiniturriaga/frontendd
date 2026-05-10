@@ -1,5 +1,6 @@
 //Api es la capa HTTP pura, sin estado
 //fetch bcase manejo de token y errores
+const BASE_URL = import.meta.env.VITE_API_URL
 
 export async function apiFetch(path, options = {}) {
   const token = localStorage.getItem('token')

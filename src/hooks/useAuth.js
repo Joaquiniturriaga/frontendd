@@ -29,7 +29,7 @@ const login = async (email, password) => {
 
   const register = async( email, password) =>{
     setLoading(true)
-    setError(false)
+    setError(null)
     try{
       await registerUser(email, password)
       navigate('/login')
