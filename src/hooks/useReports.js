@@ -1,7 +1,7 @@
 //fetch, crear reporte, estado loading/error
 
 import { useState, useEffect } from "react";
-import { getReports, createReport } from '../api/reports.api'
+import { getReports, createReport } from '../api/report.api'
 
 export function useReports(){
     const [reports, setReports] = useState([])

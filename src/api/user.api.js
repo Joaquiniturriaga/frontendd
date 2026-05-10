@@ -10,7 +10,7 @@ export const updateProfile = ( email,name) =>
     apiFetch('/api/users/update' ,{
         method: 'PUT',
         body: JSON.stringify({email, name}),
-    }),
+    })
 
 export const getAllUsers = () =>
     apiFetch('/api/users/users')
