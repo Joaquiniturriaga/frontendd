@@ -21,9 +21,9 @@ export function useReports(){
     }
 
 
-    const addReport = async(title , description , lat, lng )=>{
+    const addReport = async(title , description , lat, lng, tipo )=>{
         try {
-            const newReport = await createReport(title, description, lat, lng)
+            const newReport = await createReport(title, description, lat, lng, tipo)
             setReports(prev => [newReport, ...prev])
             return newReport
         }catch(err){

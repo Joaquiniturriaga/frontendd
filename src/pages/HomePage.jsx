@@ -12,6 +12,14 @@ import ActionButton from '../components/ActionButton/ActionButton'
 
 
 const centro = [-34.1703, -70.7431]
+const iconoPorTipo = (tipo) => {
+  const emoji = tipo === 'INCENDIO' ? '🔥' : tipo === 'FOCO' ? '⚠️' : '💨'
+  return L.divIcon({
+    html: `<div style="font-size:24px;line-height:1">${emoji}</div>`,
+    className: '',
+    iconAnchor: [12, 12],
+  })
+}
 
 const botones = [
   { label: 'Reportar incendio',      sub: 'Hay un incendio activo ahora', variant: 'red',    ruta: '/dashboard' },
@@ -31,7 +39,7 @@ export default function HomePage() {
         <div className="home-body">
 
           <div className="home-sidebar">
-            <p className="home-buttons-label">¿Qué quieres hacer?</p>
+            <p className="home-buttons-label">¿What do you want to do?</p>
             <div className="home-buttons">
               {botones.map(({ label, sub, icon, variant, ruta }) => (
                 <ActionButton
@@ -48,7 +56,7 @@ export default function HomePage() {
 
           {/* Mapa — en móvil queda abajo, en desktop ocupa el resto */}
           <div className="home-map-wrapper">
-            <p className="home-map-label">Active fires in the region</p>
+            <p className="home-map-label">Active fires in the region ---Click to view the full map</p>
             <div className="home-map" onClick={() => navigate('/map')} style={{ cursor: 'pointer' }}>
               <MapContainer
                 center={centro}

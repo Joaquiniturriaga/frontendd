@@ -3,17 +3,18 @@ import { Link, NavLink } from 'react-router-dom'
 import './NavBar.css'
 import { useAuthContext } from '../../context/AuthContext'
 
-const links = [
-  { label: 'Dashboard',         ruta: '/dashboard' },
-  { label: 'Mapa de incendios', ruta: '/map' },  
-  { label: 'Mi perfil',         ruta: '/profile' },
-]
 
 export default function NavBar() {
   const [menuAbierto, setMenuAbierto] = useState(false)
     const { user } = useAuthContext()
 
+const links = [
+  { label: 'Dashboard',         ruta: '/dashboard' },
+  { label: 'Mapa de incendios', ruta: '/map' },  
+  { label: 'Mi perfil',         ruta: '/profile' },
+  ...(user?.role === 'admin' ? [{ label: '⚙️ Admin', ruta: '/admin' }] : []),
 
+]
   return (
     <>
       <nav className="navbar">

@@ -18,7 +18,8 @@ const login = async (email, password) => {
       const data = await loginUser(email, password)
       // data.token viene como "AUTH-eyJ..."
       // guardamos el token completo, client.js lo manda tal cual
-      saveSession(data.token, { email })
+      const payload = JSON.parse(atob(data.token.replace('AUTH-', '').split('.')[1]))
+      saveSession(data.token, { email, role: payload.role }) 
       navigate('/dashboard')
     } catch (err) {
       setError(err.message)

@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useUserProfile } from '../hooks/useUserProfile'
+import { useAuth } from '../hooks/useAuth'
 
 export default function ProfilePage() {
   const { profile, loading, error, update } = useUserProfile()
+   const { logout } = useAuth()
+
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
@@ -53,6 +56,14 @@ export default function ProfilePage() {
           {saving ? 'Saving...' : 'Update'}
         </button>
       </form>
+      <hr style={{ margin: '24px 0' }} />
+      <h2>Sesión</h2>
+      <button
+        onClick={logout}
+        style={{ backgroundColor: '#cc2200', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer' }}
+      >
+        Cerrar sesión
+      </button>
     </div>
   )
 }
