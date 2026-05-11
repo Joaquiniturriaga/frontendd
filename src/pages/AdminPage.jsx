@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getAllUsers } from '../api/user.api'
+import '../styles/pages/AdminPage.css'
 
 export default function AdminPage() {
   const [users, setUsers] = useState([])
@@ -13,42 +14,42 @@ export default function AdminPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return <p>Cargando brigadistas...</p>
-  if (error) return <p style={{ color: 'red' }}>{error}</p>
+  if (loading) return <p className="admin-loading">Cargando brigadistas...</p>
+  if (error) return <p className="admin-error">{error}</p>
 
   return (
-    <div style={{ padding: '16px' }}>
+    <div className="admin-container">
       <h1>Panel Admin</h1>
       <h2>Brigadistas registrados ({users.length})</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr style={{ backgroundColor: '#cc2200', color: 'white' }}>
-            <th style={{ padding: '10px', textAlign: 'left' }}>ID</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Email</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Nombre</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Rol</th>
-            <th style={{ padding: '10px', textAlign: 'left' }}>Registro</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u, i) => (
-            <tr key={u.id} style={{ backgroundColor: i % 2 === 0 ? '#f9f9f9' : 'white' }}>
-              <td style={{ padding: '10px' }}>{u.id}</td>
-              <td style={{ padding: '10px' }}>{u.email}</td>
-              <td style={{ padding: '10px' }}>{u.name || '—'}</td>
-              <td style={{ padding: '10px' }}>
-                <span style={{
-                  backgroundColor: u.role === 'admin' ? '#cc2200' : '#333',
-                  color: 'white', padding: '2px 8px', borderRadius: '4px', fontSize: '12px'
-                }}>
-                  {u.role}
-                </span>
-              </td>
-              <td style={{ padding: '10px' }}>{new Date(u.created_at).toLocaleDateString()}</td>
+
+      <div className="admin-table-wrapper">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Nombre</th>
+              <th>Rol</th>
+              <th>Registro</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((u, i) => (
+              <tr key={u.id}>
+                <td>{u.id}</td>
+                <td>{u.email}</td>
+                <td>{u.name || '—'}</td>
+                <td>
+                  <span className={`admin-badge admin-badge--${u.role}`}>
+                    {u.role}
+                  </span>
+                </td>
+                <td>{new Date(u.created_at).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

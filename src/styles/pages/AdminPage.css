@@ -1,0 +1,97 @@
+.admin-container {
+  padding: 24px 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.admin-container h1 {
+  font-size: 22px;
+  color: #cc2200;
+  margin-bottom: 4px;
+}
+
+.admin-container h2 {
+  font-size: 14px;
+  color: #888888;
+  font-weight: normal;
+  margin-bottom: 20px;
+}
+
+/* ─── ESTADOS ─────────────────────────────────── */
+
+.admin-loading,
+.admin-error {
+  font-size: 14px;
+  padding: 16px;
+}
+
+.admin-error {
+  color: #cc2200;
+}
+
+/* ─── TABLA WRAPPER (scroll horizontal en móvil) */
+
+.admin-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+
+/* ─── TABLA ───────────────────────────────────── */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.admin-table thead tr {
+  background-color: #cc2200;
+  color: white;
+}
+
+.admin-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 10px 14px;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.admin-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.admin-table tbody tr:nth-child(odd) {
+  background-color: white;
+}
+
+.admin-table tbody tr:hover {
+  background-color: #fff5f5;
+}
+
+/* ─── BADGE ROL ───────────────────────────────── */
+
+.admin-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+}
+
+.admin-badge--admin {
+  background-color: #cc2200;
+}
+
+.admin-badge--user {
+  background-color: #333333;
+}
