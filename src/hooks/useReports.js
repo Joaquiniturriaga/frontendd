@@ -21,14 +21,14 @@ export function useReports(){
     }
 
 
-    const addReport = async(title , description , lat, lng, tipo )=>{
+    const addReport = async (title, description, lat, lng, tipo = 'INCENDIO') => {
         try {
-            const newReport = await createReport(title, description, lat, lng, tipo)
-            setReports(prev => [newReport, ...prev])
-            return newReport
-        }catch(err){
-            setError(err.message)
-            throw err
+        const newReport = await createReport(title, description, lat, lng, tipo)
+        setReports(prev => [newReport, ...prev])
+        return newReport
+        } catch (err) {
+        setError(err.message)
+        throw err
         }
     }
 
@@ -37,5 +37,6 @@ export function useReports(){
         fetchReports()
     }, [])
 
-    return {reports, loading,error, addReport, refetch: fetchReports}
+  return { reports, loading, error, addReport, refetch: fetchReports }
+
 }
