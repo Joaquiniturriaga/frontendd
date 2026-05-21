@@ -12,7 +12,7 @@ const AuthContext = createContext(null)
 export function AuthProvider({children}){
     const [user, setUser] = useState(()=>{
         const saved = localStorage.getItem('user')
-        return saved ? JSON.parse: null
+        return saved ? JSON.parse(saved): null
     })
 
 const saveSession = (token, userData) =>{
