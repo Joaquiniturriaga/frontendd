@@ -1,0 +1,288 @@
+.adminhome-container {
+  padding: 24px 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.adminhome-loading { font-size: 14px; color: var(--color-text-secondary, #888); }
+
+.adminhome-page-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── EMERGENCY BANNER ───────────────────────────── */
+
+.adminhome-emergency-banner {
+  background: #FCEBEB;
+  border: 0.5px solid #F09595;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #A32D2D;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.adminhome-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E24B4A;
+  flex-shrink: 0;
+  animation: adminhome-pulse 2s infinite;
+}
+
+@keyframes adminhome-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .4; transform: scale(1.5); }
+}
+
+/* ── STAT CARDS ─────────────────────────────────── */
+
+.adminhome-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.adminhome-stat-card {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.adminhome-stat-label {
+  font-size: 12px;
+  color: #888888;
+  margin-bottom: 6px;
+}
+
+.adminhome-stat-value {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  color: #333333;
+}
+
+.adminhome-stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.adminhome-pulse {
+  animation: adminhome-pulse 2s infinite;
+}
+
+/* ── PANELS ─────────────────────────────────────── */
+
+.adminhome-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 600px) {
+  .adminhome-row { grid-template-columns: 1fr; }
+}
+
+.adminhome-panel {
+  background: white;
+  border: 0.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.adminhome-panel--mt { margin-top: 12px; }
+
+.adminhome-panel-title {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #888888;
+  margin-bottom: 14px;
+}
+
+/* ── BAR CHART ──────────────────────────────────── */
+
+.adminhome-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  height: 120px;
+  padding-bottom: 4px;
+}
+
+.adminhome-chart-bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.adminhome-chart-bar-wrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.adminhome-chart-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+  transition: height .4s ease;
+}
+
+.adminhome-chart-label {
+  font-size: 11px;
+  color: #888888;
+  text-align: center;
+}
+
+.adminhome-chart-count {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* ── STATUS LIST ────────────────────────────────── */
+
+.adminhome-status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.adminhome-status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.adminhome-bar-track {
+  flex: 1;
+  background: #f5f5f5;
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.adminhome-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .6s ease;
+}
+
+.adminhome-scount {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+  min-width: 20px;
+  text-align: right;
+}
+
+/* ── BADGES ─────────────────────────────────────── */
+
+.adminhome-sbadge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  min-width: 82px;
+  text-align: center;
+  display: inline-block;
+}
+
+.sbadge-active     { background: #FCEBEB; color: #A32D2D; }
+.sbadge-controlled { background: #FAEEDA; color: #854F0B; }
+.sbadge-reviewed   { background: #EAF3DE; color: #3B6D11; }
+.sbadge-dismissed  { background: #f5f5f5; color: #888888; }
+
+/* ── TABLE ──────────────────────────────────────── */
+
+.adminhome-table-wrapper { overflow-x: auto; }
+
+.adminhome-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.adminhome-table th {
+  text-align: left;
+  padding: 8px 10px;
+  background: #f9f9f9;
+  color: #888888;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  border-bottom: 0.5px solid #e0e0e0;
+}
+
+.adminhome-table td {
+  padding: 9px 10px;
+  border-bottom: 0.5px solid #f0f0f0;
+  color: #333333;
+}
+
+.adminhome-table tr:last-child td { border-bottom: none; }
+.adminhome-table tr:hover td { background: #fafafa; }
+
+.adminhome-muted { font-size: 12px; color: #888888; }
+
+/* ── BRIGADES ───────────────────────────────────── */
+
+.adminhome-brigades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.adminhome-bchip {
+  background: #f9f9f9;
+  border-left: 3px solid #E24B4A;
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+}
+
+.adminhome-bchip--inactive {
+  border-left-color: #cccccc;
+  opacity: .6;
+}
+
+.adminhome-bchip-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.adminhome-bchip-meta {
+  font-size: 11px;
+  color: #888888;
+}
