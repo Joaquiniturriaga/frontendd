@@ -1,3 +1,5 @@
+/* ─── LOGIN ─────────────────────────────────────── */
+
 .login-container {
   min-height: 100svh;
   display: flex;
@@ -9,11 +11,11 @@
 
 .login-box {
   background-color: white;
-  padding: 32px 24px;
+  padding: 36px 28px;
   border-radius: 8px;
   border: 1px solid #dddddd;
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
 }
 
 .login-box h1 {
@@ -24,14 +26,14 @@
 }
 
 .login-error {
-  background-color: #ffe5e5;
+  background-color: #fff0ee;
   color: #cc2200;
   font-size: 13px;
   font-family: Arial, sans-serif;
   padding: 10px 12px;
   border-radius: 6px;
   margin-bottom: 16px;
-  border: 1px solid #ffbbbb;
+  border: 1px solid #f5c4b3;
 }
 
 .login-form {
@@ -48,12 +50,11 @@
   border: 1px solid #dddddd;
   border-radius: 6px;
   outline: none;
+  box-sizing: border-box;
   transition: border-color 0.2s;
 }
 
-.login-form input:focus {
-  border-color: #cc2200;
-}
+.login-form input:focus { border-color: #cc2200; }
 
 .login-form button {
   width: 100%;
@@ -70,28 +71,16 @@
   transition: opacity 0.2s;
 }
 
-.login-form button:hover {
-  opacity: 0.85;
-}
-
-.login-form button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+.login-form button:hover    { opacity: 0.85; }
+.login-form button:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .login-footer {
-  margin-top: 20px;
+  margin-top: 16px;
   font-size: 13px;
   font-family: Arial, sans-serif;
-  color: #666666;
+  color: #555555;
   text-align: center;
 }
 
-.login-footer a {
-  color: #cc2200;
-  text-decoration: none;
-}
-
-.login-footer a:hover {
-  text-decoration: underline;
-}
+.login-footer a { color: #cc2200; text-decoration: none; }
+.login-footer a:hover { text-decoration: underline; }

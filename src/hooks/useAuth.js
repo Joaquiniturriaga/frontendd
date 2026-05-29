@@ -1,26 +1,31 @@
-//Desde aca consumimos authcontext
-
-import { useState } from "react";
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loginUser, registerUser } from '../api/auth.api'
 import { useAuthContext } from '../context/AuthContext'
 
 export function useAuth() {
-  const { saveSession, logout, user } = useAuthContext()
+  const { saveSession, clearSession, user } = useAuthContext()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError]     = useState(null)
 
-const login = async (email, password) => {
+  const login = async (email, password) => {
     setLoading(true)
     setError(null)
     try {
       const data = await loginUser(email, password)
-      // data.token viene como "AUTH-eyJ..."
-      // guardamos el token completo, client.js lo manda tal cual
-      const payload = JSON.parse(atob(data.token.replace('AUTH-', '').split('.')[1]))
-      saveSession(data.token, { email, role: payload.role }) 
-      navigate('/dashboard')
+      // ← guardamos TODO el payload, no solo email+role
+      const payload = JSON.parse(
+        atob(data.token.replace('AUTH-', '').split('.')[1])
+      )
+      saveSession(data.token, {
+        id:         payload.id,
+        email:      payload.email,
+        role:       payload.role,
+        brigade_id: payload.brigade_id ?? null,
+      })
+      //mandamos a ruta si es admin
+      navigate(payload.role === 'admin' ? '/admin/home' : '/home')
     } catch (err) {
       setError(err.message)
     } finally {
@@ -28,19 +33,24 @@ const login = async (email, password) => {
     }
   }
 
-  const register = async( email, password) =>{
+  const register = async (email, password) => {
     setLoading(true)
     setError(null)
-    try{
+    try {
       await registerUser(email, password)
       navigate('/login')
-    }catch(err){
+    } catch (err) {
       setError(err.message)
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
 
-  return {login, register, logout, user, loading, error}
+  // un solo navigate, en el hook
+  const logout = () => {
+    clearSession()
+    navigate('/login')
+  }
 
+  return { login, register, logout, user, loading, error }
 }

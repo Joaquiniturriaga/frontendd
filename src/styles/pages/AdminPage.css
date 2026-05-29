@@ -1,6 +1,6 @@
 .admin-container {
   padding: 24px 16px;
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
 }
@@ -8,38 +8,151 @@
 .admin-container h1 {
   font-size: 22px;
   color: #cc2200;
-  margin-bottom: 4px;
-}
-
-.admin-container h2 {
-  font-size: 14px;
-  color: #888888;
-  font-weight: normal;
   margin-bottom: 20px;
 }
 
-/* ─── ESTADOS ─────────────────────────────────── */
+/* ─── TABS ──────────────────────────────────────── */
 
-.admin-loading,
-.admin-error {
+.admin-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eeeeee;
+}
+
+.admin-tab {
+  padding: 10px 20px;
+  background: none;
+  border: none;
   font-size: 14px;
-  padding: 16px;
+  font-family: Arial, sans-serif;
+  color: #888888;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
 }
 
-.admin-error {
+.admin-tab:hover { color: #333333; }
+
+.admin-tab.active {
   color: #cc2200;
+  font-weight: bold;
+  border-bottom-color: #cc2200;
 }
 
-/* ─── TABLA WRAPPER (scroll horizontal en móvil) */
+.admin-tab-count {
+  background-color: #cc2200;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+/* ─── SECTION ───────────────────────────────────── */
+
+.admin-section { animation: fadeIn 0.15s ease; }
+
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+.admin-loading { font-size: 14px; color: #888888; }
+.admin-error   { font-size: 14px; color: #cc2200; }
+.admin-empty   { font-size: 14px; color: #888888; }
+
+/* ─── ALERTS GRID ───────────────────────────────── */
+
+.admin-alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.admin-alert-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 14px;
+  border-left: 4px solid #dddddd;
+  border-top: 1px solid #eeeeee;
+  border-right: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.admin-alert-card--pending    { border-left-color: #cc2200; }
+.admin-alert-card--controlled { border-left-color: #e65c00; }
+.admin-alert-card--reviewed   { border-left-color: #2e7d32; }
+.admin-alert-card--dismissed  { border-left-color: #888888; }
+
+.admin-alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.admin-alert-title {
+  font-size: 14px;
+  color: #333333;
+  flex: 1;
+}
+
+.admin-alert-coords,
+.admin-alert-meta {
+  font-size: 12px;
+  color: #888888;
+  margin: 2px 0;
+}
+
+.admin-alert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.admin-action-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  border-radius: 4px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admin-action-btn:hover { opacity: 0.75; }
+
+.admin-action-btn--pending    { background: #fff0ee; color: #cc2200; border-color: #cc2200; }
+.admin-action-btn--controlled { background: #fff4ee; color: #e65c00; border-color: #e65c00; }
+.admin-action-btn--reviewed   { background: #e6f4ea; color: #2e7d32; border-color: #2e7d32; }
+.admin-action-btn--dismissed  { background: #f5f5f5; color: #555555; border-color: #aaaaaa; }
+
+/* ─── BADGES ────────────────────────────────────── */
+
+.admin-badge {
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.admin-badge--pending    { background: #fff0ee; color: #cc2200; }
+.admin-badge--controlled { background: #fff4ee; color: #e65c00; }
+.admin-badge--reviewed   { background: #e6f4ea; color: #2e7d32; }
+.admin-badge--dismissed  { background: #f5f5f5; color: #555555; }
+.admin-badge--admin      { background: #eef0ff; color: #333399; }
+.admin-badge--user       { background: #f5f5f5; color: #555555; }
+
+/* ─── USERS TABLE ───────────────────────────────── */
 
 .admin-table-wrapper {
-  width: 100%;
   overflow-x: auto;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
 }
-
-/* ─── TABLA ───────────────────────────────────── */
 
 .admin-table {
   width: 100%;
@@ -47,51 +160,180 @@
   font-size: 14px;
 }
 
-.admin-table thead tr {
-  background-color: #cc2200;
-  color: white;
-}
-
 .admin-table th {
-  padding: 12px 14px;
   text-align: left;
+  padding: 10px 12px;
+  background-color: #f5f5f5;
+  color: #555555;
+  font-size: 12px;
   font-weight: bold;
-  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #dddddd;
 }
 
 .admin-table td {
-  padding: 10px 14px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eeeeee;
   color: #333333;
+}
+
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover td { background-color: #fafafa; }
+
+/* ─── USER EDIT INLINE ──────────────────────────── */
+
+.admin-user-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-user-select {
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.admin-user-select:focus { border-color: #cc2200; }
+
+.admin-user-edit-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ─── ESTADO BADGES ─────────────────────────────── */
+
+.admin-badge--estado-active   { background: #e6f4ea; color: #2e7d32; }
+.admin-badge--estado-pending  { background: #fff0ee; color: #cc2200; }
+.admin-badge--estado-rejected { background: #f5f5f5; color: #555555; }
+
+/* ─── BRIGADES TAB ───────────────────────────────── */
+
+.admin-brigades-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.admin-brigades-header h2 {
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  color: #333333;
+  margin: 0;
+}
+
+.admin-create-btn {
+  padding: 8px 16px;
+  background-color: #cc2200;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admin-create-btn:hover    { opacity: 0.85; }
+.admin-create-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.admin-brigade-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #f9f9f9;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+
+.admin-brigade-input {
+  flex: 1 1 180px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.admin-brigade-input:focus { border-color: #cc2200; }
+
+.admin-brigades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.admin-brigade-card {
+  background-color: white;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  padding: 14px;
+  border-left: 4px solid #cc2200;
+}
+
+.admin-brigade-card--inactive {
+  border-left-color: #cccccc;
+  opacity: 0.7;
+}
+
+.admin-brigade-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.admin-brigade-card-header strong {
+  font-size: 14px;
+  color: #333333;
+  font-family: Arial, sans-serif;
+}
+
+.admin-brigade-meta {
+  font-size: 12px;
+  color: #888888;
+  font-family: Arial, sans-serif;
+  margin: 3px 0;
+}
+
+/* ─── MAP BRIGADE BAR ────────────────────────────── */
+
+.map-brigade-bar {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background-color: #333333;
+  color: white;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+  padding: 6px 14px;
+  border-radius: 20px;
+  pointer-events: none;
   white-space: nowrap;
 }
 
-.admin-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.admin-table tbody tr:nth-child(odd) {
-  background-color: white;
-}
-
-.admin-table tbody tr:hover {
-  background-color: #fff5f5;
-}
-
-/* ─── BADGE ROL ───────────────────────────────── */
-
-.admin-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  color: white;
-  font-weight: bold;
-}
-
-.admin-badge--admin {
-  background-color: #cc2200;
-}
-
-.admin-badge--user {
-  background-color: #333333;
+.map-marker--camion {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #1a1a2e;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
