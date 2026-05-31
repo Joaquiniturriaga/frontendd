@@ -31,9 +31,9 @@ import '../styles/pages/MapPage.css'
 const centro = [-34.1703, -70.7431]
 
 const TIPOS = [
-  { value: 'INCENDIO', label: '🔥 Incendio activo' },
-  { value: 'FOCO', label: '⚠️ Foco pequeño' },
-  { value: 'HUMO', label: '💨 Humo visible' },
+  { value: 'INCENDIO', label: 'Incendio activo' },
+  { value: 'FOCO', label: 'Foco pequeño' },
+  { value: 'HUMO', label: 'Humo visible' },
 ]
 
 const iconoPorTipo = (tipo) => {

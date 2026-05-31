@@ -8,19 +8,19 @@ import { useLocation } from '../hooks/useLocation'
 import '../styles/pages/HomePages.css'
 
 const iconoPorTipo = (tipo) => {
-  const color = tipo === 'INCENDIO' ? '#E24B4A' : tipo === 'FOCO' ? '#EF9F27' : '#888780'
+  const color = tipo === 'INCENDIO' ? '#ef4444' : tipo === 'FOCO' ? '#f97316' : '#6b7280'
   const letra = tipo === 'INCENDIO' ? 'I' : tipo === 'FOCO' ? 'F' : 'H'
   return L.divIcon({
     html: `<div class="home-marker home-marker--fire" style="background:${color}">${letra}</div>`,
     className: '',
-    iconAnchor: [14, 14],
+    iconAnchor: [16, 16],
   })
 }
 
 const iconoUsuario = L.divIcon({
   html: `<div class="home-marker home-marker--user">●</div>`,
   className: '',
-  iconAnchor: [14, 14],
+  iconAnchor: [12, 12],
 })
 
 const centro = [-34.1703, -70.7431]
@@ -95,23 +95,25 @@ export default function HomePage() {
 
         {/* Sidebar */}
         <div className="home-sidebar">
-          <p className="home-section-label">Actions</p>
-          <div className="home-actions">
-            {ACCIONES.map(({ icon, label, sub, variant, ruta }) => (
-              <button
-                key={label}
-                className={`home-action-btn home-action-btn--${variant}`}
-                onClick={() => navigate(ruta)}
-              >
-                <div className={`home-action-icon home-action-icon--${variant}`}>
-                  <i className={`ti ${icon}`} aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="home-action-label">{label}</p>
-                  <p className="home-action-sub">{sub}</p>
-                </div>
-              </button>
-            ))}
+          <div>
+            <p className="home-section-label">Actions</p>
+            <div className="home-actions">
+              {ACCIONES.map(({ icon, label, sub, variant, ruta }) => (
+                <button
+                  key={label}
+                  className={`home-action-btn home-action-btn--${variant}`}
+                  onClick={() => navigate(ruta)}
+                >
+                  <div className={`home-action-icon home-action-icon--${variant}`}>
+                    <i className={`ti ${icon}`} aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="home-action-label">{label}</p>
+                    <p className="home-action-sub">{sub}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
           {nearbyAlerts.length > 0 && (
@@ -120,8 +122,8 @@ export default function HomePage() {
               {nearbyAlerts.slice(0, 3).map(a => (
                 <div key={a.id} className="home-alert-item">
                   <span className="home-alert-title">
-                    <i className="ti ti-flame" style={{ fontSize: 13, verticalAlign: -1 }} aria-hidden="true" />
-                    {' '}{a.report_title}
+                    <i className="ti ti-flame" style={{ fontSize: 14 }} aria-hidden="true" />
+                    {a.report_title}
                   </span>
                   <span className="home-alert-dist">{parseFloat(a.distance_km).toFixed(1)} km</span>
                 </div>
@@ -162,13 +164,13 @@ export default function HomePage() {
 
           {/* Legend */}
           <div className="home-map-legend">
-            <div className="home-legend-row"><span className="home-legend-dot" style={{ background: '#E24B4A' }} />Fire report</div>
-            <div className="home-legend-row"><span className="home-legend-dot" style={{ background: '#185FA5' }} />Your location</div>
+            <div className="home-legend-row"><span className="home-legend-dot" style={{ background: '#ef4444' }} />Fire report</div>
+            <div className="home-legend-row"><span className="home-legend-dot" style={{ background: '#3b82f6' }} />Your location</div>
           </div>
 
           <p className="home-map-hint">
-            <i className="ti ti-arrows-maximize" style={{ fontSize: 12, verticalAlign: -1 }} aria-hidden="true" />
-            {' '}Click to open full map
+            <i className="ti ti-arrows-maximize" style={{ fontSize: 13, marginRight: 4 }} aria-hidden="true" />
+            Click to open full map
           </p>
         </div>
 

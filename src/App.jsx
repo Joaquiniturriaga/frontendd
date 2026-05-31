@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { useAuthContext } from './context/AuthContext'
+import { ThemeProvider } from './components/context/ThemeContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import NavBar from './components/NavBar/NavBar'
 import LoginPage from './pages/LoginPage'
@@ -44,7 +45,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppContent />
+        <ThemeProvider>  
+          <AppContent />
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   )
