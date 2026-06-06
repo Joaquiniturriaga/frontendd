@@ -22,7 +22,8 @@ export function useReports() {
   const addReport = async (title, description, lat, lng, tipo = 'INCENDIO') => {
     try {
       const newReport = await createReport(title, description, lat, lng, tipo)
-      setReports(prev => [newReport, ...prev])
+      setReports(prev => [newReport, ...prev]) //Copiar elemnetos entonces nuevo reporte + todos los anteriores
+      //Se recomienda por que el nuevo estado depende del anterior
       return newReport
     } catch (err) {
       setError(err.message)

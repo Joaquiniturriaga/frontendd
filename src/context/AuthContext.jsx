@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 //Use state sirve estados (pueden cambiar)
-//Create context permite compartid datos entre componentes
+//Create context permite compartir datos entre componentes
 //AuthContext permite consumir un contexto ejemplo: const data = useContext[MiContext] 
 const AuthContext = createContext(null)
 

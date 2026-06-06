@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+//Habilitamos el sistema de rutas, contenedor de rutas, definiinr rutas, redirige a otra ruta
 import { AuthProvider } from './context/AuthContext'
 import { useAuthContext } from './context/AuthContext'
 import { ThemeProvider } from './components/context/ThemeContext'
@@ -14,18 +15,19 @@ import AdminPage from './pages/AdminPage'
 import AdminHomePage from './pages/AdminHomePage'
 import './App.css'
 
+//Children es el componente que esta adentro
 function AdminRoute({ children }) {
-  const { user } = useAuthContext()
-  if (!user) return <Navigate to="/login" replace />
-  if (user.role !== 'admin') return <Navigate to="/home" replace />
+  const { user } = useAuthContext() //Ocumaos todo lo de auth context del provider y nos quedamos con user
+  if (!user) return <Navigate to="/login" replace />//Si no existe el usuario
+  if (user.role !== 'admin') return <Navigate to="/home" replace />//Si es admin
   return children
 }
 
-function AppContent() {
+function AppContent() { //
   const { user } = useAuthContext()
   return (
     <>
-      {user && <NavBar />}
+      {user && <NavBar />}//Si user esta mostramos
       <Routes>
         <Route path="/"           element={<Navigate to="/login" replace />} />
         <Route path="/login"      element={<LoginPage />} />
@@ -43,10 +45,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <ThemeProvider>  
-          <AppContent />
+    <BrowserRouter>//React entiende con esto
+      <AuthProvider>//Auth provider nos hace disponible lo de auth context
+        <ThemeProvider>  //Tema
+          <AppContent /> //Rutas
         </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
