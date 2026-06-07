@@ -200,22 +200,24 @@ const handleRespond = async (reportId) => {
     setResponding(false)
   }
 }
-  const handleUpdateReportStatus = async (reportId, status) => {
-    setUpdatingStatus(true)
-
-    try {
-      await apiFetch(`/api/reports/${reportId}/status`, {
-        method: 'PUT',
-        body: JSON.stringify({ status }),
-      })
-
-      refetch()
-    } catch (err) {
-      console.error(err.message)
-    } finally {
-      setUpdatingStatus(false)
+const handleUpdateReportStatus = async (reportId, status) => {
+  setUpdatingStatus(true)
+  try {
+    await apiFetch(`/api/reports/${reportId}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    })
+    refetch()
+    // Al descartar, limpia también las brigadas del mapa
+    if (status === 'DISMISSED') {
+      setTimeout(() => fetchBrigades(), 500)
     }
+  } catch (err) {
+    console.error(err.message)
+  } finally {
+    setUpdatingStatus(false)
   }
+}
 
   return (
     <div className="map-container">
@@ -289,7 +291,9 @@ const handleRespond = async (reportId) => {
 
         <MapCenterer location={userLocation} />
 
-{reports.map((r) => {
+{reports
+        .filter(r => r.status !== 'DISMISSED')
+        .map((r) => {
   // Busca si alguna brigada está respondiendo este reporte
   const brigada = activeBrigades.find(b => b.report_id === r.id)
 
@@ -357,8 +361,12 @@ const handleRespond = async (reportId) => {
   )
 })}
 
-{activeBrigades.map((b) => (
-  <Marker
+{activeBrigades
+  .filter(b => {
+    const reporte = reports.find(r => r.id === b.report_id)
+    return reporte && reporte.status !== 'DISMISSED'
+  })
+  .map((b) => (  <Marker
     key={b.id}
     position={[parseFloat(b.lat), parseFloat(b.lng)]}
     icon={iconoCamion}
