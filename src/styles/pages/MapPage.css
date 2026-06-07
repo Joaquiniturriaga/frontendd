@@ -132,7 +132,24 @@
 
 .map-form-submit:hover    { background: #991b1b; }
 .map-form-submit:disabled { opacity: 0.45; cursor: not-allowed; }
-
+/* ─── RESPOND BTN ──────────────────────────────── */
+.map-respond-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: system-ui, Arial, sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.map-respond-btn:hover:not(:disabled) { background: #1e40af; }
+.map-respond-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 /* ─── MARKERS ──────────────────────────────────── */
 
 .map-marker {
@@ -154,7 +171,12 @@
 .map-marker--foco      { background-color: #c2410c; }
 .map-marker--otro      { background-color: #1e1e23; }
 .map-marker--pendiente { background-color: #185FA5; }
-
+.map-marker--camion {
+  background-color: white; 
+  z-index: 1000 !important;
+  font-size: 20px;
+  border: 2px solid #2563eb !important; 
+}
 /* ─── POPUP ────────────────────────────────────── */
 
 .map-popup-title {
@@ -219,3 +241,24 @@
 .map-status-btn--controlled { background: #EF9F27; color: #633806; }
 .map-status-btn--reviewed   { background: #639922; color: #173404; }
 .map-status-btn--dismissed  { background: #888780; color: #2C2C2A; }
+
+.map-brigade-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 12px;
+  font-family: system-ui, Arial, sans-serif;
+  color: #1d4ed8;
+  font-weight: 500;
+}
+.map-brigade-estado {
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
