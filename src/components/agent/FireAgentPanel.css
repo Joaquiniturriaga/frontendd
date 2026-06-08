@@ -1,0 +1,473 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   FireAgentPanel.css — Valle del Sol (Edición Ascua / Industrial Neón)
+   Prefijo: fap-  (FireAgentPanel)
+   Tema:    industrial oscuro / acento fuego dinámico
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Variables ─────────── */
+.fap-panel,
+.fap-fab {
+  --fap-bg:          #0a0c13; /* Más oscuro, más contraste */
+  --fap-surface:     #121622;
+  --fap-surface-2:   #1a2033;
+  --fap-border:      #2a324a;
+  --fap-text:        #e2e8f0;
+  --fap-muted:       #7a89a8;
+  --fap-accent:      #ff5a00; /* Naranja más vivo, tipo brasa */
+  --fap-accent-h:    #ff7b33;
+  --fap-accent-glow: rgba(255, 90, 0, 0.4);
+  --fap-user-bg:     #12203d; /* Contraste sutil para el usuario */
+  --fap-shadow:      rgba(0, 0, 0, 0.8);
+  --fap-radius:      1rem;
+  --fap-font:        'Courier New', 'Consolas', monospace;
+}
+
+/* ── FAB flotante (Efecto Brasa que respira) ───────────────────────────── */
+.fap-fab {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--fap-accent), #e03c00);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px var(--fap-accent-glow);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
+  z-index: 1100;
+  animation: fapBreathe 3s infinite alternate ease-in-out;
+}
+
+@keyframes fapBreathe {
+  0% { box-shadow: 0 0 10px var(--fap-accent-glow), 0 0 0 0 rgba(255, 90, 0, 0.2); }
+  100% { box-shadow: 0 0 25px var(--fap-accent-glow), 0 0 0 8px rgba(255, 90, 0, 0); }
+}
+
+.fap-fab:hover {
+  transform: scale(1.15) rotate(5deg);
+  animation-play-state: paused;
+  box-shadow: 0 0 30px var(--fap-accent-glow);
+}
+
+.fap-fab--active {
+  background: var(--fap-surface-2);
+  border: 1px solid var(--fap-accent);
+  box-shadow: 0 4px 16px var(--fap-shadow), inset 0 0 10px rgba(255,90,0,0.1);
+  font-size: 1rem;
+  animation: none;
+  color: var(--fap-accent);
+}
+
+/* ── Panel container (Efecto cristal oscuro) ───────────────────────────── */
+.fap-panel {
+  position: fixed;
+  bottom: 6.5rem;
+  right: 1.75rem;
+  width: 390px;
+  height: 585px;
+  max-height: calc(100vh - 8.5rem);
+  background: rgba(10, 12, 19, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--fap-border);
+  border-top: 2px solid var(--fap-accent); /* Acento principal arriba */
+  border-radius: var(--fap-radius);
+  box-shadow: 0 32px 80px var(--fap-shadow), 0 0 20px rgba(255, 90, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1099;
+  animation: fapSlideUp 0.3s cubic-bezier(.22, .68, 0, 1.15) forwards;
+}
+
+@keyframes fapSlideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+.fap-header {
+  background: linear-gradient(to bottom, rgba(255,90,0,0.05), transparent);
+  border-bottom: 1px solid var(--fap-border);
+  padding: 1rem 1rem 0;
+  flex-shrink: 0;
+}
+
+.fap-header__title {
+  color: var(--fap-text);
+  font-family: var(--fap-font);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* ── Tabs (Diseño HUD) ─────────────────────────────────────────────────── */
+.fap-tabs {
+  display: flex;
+  gap: 0.2rem;
+}
+.fap-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--fap-muted);
+  font-family: var(--fap-font);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.fap-tab:hover { 
+  color: var(--fap-text); 
+  background: rgba(255, 255, 255, 0.02);
+}
+.fap-tab--active {
+  color: var(--fap-accent);
+  border-bottom-color: var(--fap-accent);
+  background: linear-gradient(to top, rgba(255,90,0,0.1), transparent);
+}
+
+/* ═══════════════════════ CHAT ═══════════════════════════════════════════ */
+
+.fap-chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Scroll de mensajes estilo Neón */
+.fap-chat__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  scroll-behavior: smooth;
+}
+.fap-chat__messages::-webkit-scrollbar { width: 4px; }
+.fap-chat__messages::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+.fap-chat__messages::-webkit-scrollbar-thumb {
+  background: var(--fap-border);
+  border-radius: 4px;
+}
+.fap-chat__messages::-webkit-scrollbar-thumb:hover { background: var(--fap-accent); }
+
+/* ── Mensajes (Entrada ultra rápida) ─────────────────────────────────── */
+.fap-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  animation: fapMsgPop 0.15s ease-out forwards; /* Muy rápido, no molesta la lectura */
+}
+@keyframes fapMsgPop {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fap-msg--user { flex-direction: row-reverse; }
+
+.fap-msg__avatar {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.fap-msg__bubble {
+  max-width: 85%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.fap-msg__text {
+  margin: 0;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.fap-msg--bot .fap-msg__text {
+  background: var(--fap-surface);
+  border: 1px solid var(--fap-border);
+  border-left: 2px solid var(--fap-accent); /* Línea de acento estilo terminal */
+  color: var(--fap-text);
+  border-top-left-radius: 0;
+}
+
+.fap-msg--user .fap-msg__text {
+  background: var(--fap-user-bg);
+  border: 1px solid rgba(18, 58, 110, 0.5);
+  color: var(--fap-text);
+  border-top-right-radius: 0;
+}
+
+/* ── Risk badge (Impacto visual) ─────────────────────────────────────── */
+.fap-risk-badge {
+  align-self: flex-start;
+  font-family: var(--fap-font);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  color: #fff;
+  background: #dc2626; /* Rojo alerta por defecto, asumiendo riesgo */
+  text-transform: uppercase;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
+  border: 1px solid #f87171;
+}
+
+/* ── Typing indicator ────────────────────────────────────────────────── */
+.fap-typing {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 0.65rem 0.9rem;
+  background: var(--fap-surface);
+  border: 1px solid var(--fap-border);
+  border-left: 2px solid var(--fap-accent);
+  border-radius: 0.5rem;
+  border-top-left-radius: 0;
+  width: fit-content;
+}
+.fap-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fap-accent);
+  animation: fapDot 1s infinite alternate;
+  box-shadow: 0 0 5px var(--fap-accent-glow);
+}
+.fap-typing span:nth-child(2) { animation-delay: 0.2s; }
+.fap-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fapDot {
+  0%   { transform: translateY(0) scale(0.8); opacity: 0.4; }
+  100% { transform: translateY(-4px) scale(1.2); opacity: 1; }
+}
+
+/* ── Quick prompts (Botones interactivos) ────────────────────────────── */
+.fap-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(18, 22, 34, 0.6);
+  border-top: 1px solid var(--fap-border);
+  flex-shrink: 0;
+}
+
+.fap-quick__btn {
+  background: transparent;
+  border: 1px solid var(--fap-border);
+  color: var(--fap-text);
+  font-family: var(--fap-font);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.fap-quick__btn:hover:not(:disabled) {
+  color: var(--fap-accent);
+  border-color: var(--fap-accent);
+  background: rgba(255, 90, 0, 0.08);
+  box-shadow: 0 0 10px rgba(255, 90, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* ── Input row ───────────────────────────────────────────────────────── */
+.fap-input-row {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.8rem 0.85rem;
+  border-top: 1px solid var(--fap-border);
+  align-items: flex-end;
+  flex-shrink: 0;
+  background: var(--fap-surface);
+}
+
+.fap-textarea {
+  flex: 1;
+  background: var(--fap-bg);
+  border: 1px solid var(--fap-border);
+  border-radius: 0.5rem;
+  color: var(--fap-text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 0.6rem 0.8rem;
+  resize: none;
+  transition: all 0.2s ease;
+}
+.fap-textarea:focus { 
+  outline: none; 
+  border-color: var(--fap-accent);
+  box-shadow: 0 0 0 2px rgba(255, 90, 0, 0.1);
+}
+
+.fap-send-btn {
+  background: var(--fap-surface-2);
+  border: 1px solid var(--fap-border);
+  border-radius: 0.5rem;
+  color: var(--fap-accent);
+  width: 2.6rem;
+  height: 2.6rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.fap-send-btn:hover:not(:disabled) {
+  background: var(--fap-accent);
+  color: #fff;
+  border-color: var(--fap-accent);
+  transform: scale(1.08) rotate(-5deg);
+  box-shadow: 0 4px 12px var(--fap-accent-glow);
+}
+
+/* ═══════════════════════ MÉTRICAS (Dashboards) ═════════════════════════ */
+
+.fap-metrics {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.fap-metrics::-webkit-scrollbar { width: 3px; }
+
+/* ── Grid de cards (Efecto Hover 3D sutil) ───────────────────────────── */
+.fap-metrics__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.fap-metrics__grid > .fap-metric-card:first-child { grid-column: 1 / -1; }
+
+.fap-metric-card {
+  background: var(--fap-surface);
+  border: 1px solid var(--fap-border);
+  border-radius: 0.5rem;
+  padding: 0.85rem;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.fap-metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 2px; height: 100%;
+  background: var(--fap-border);
+  transition: background 0.2s;
+}
+.fap-metric-card:hover { 
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  border-color: rgba(255, 90, 0, 0.3);
+}
+.fap-metric-card:hover::before { background: var(--fap-accent); }
+
+.fap-metric-card__label {
+  font-family: var(--fap-font);
+  font-size: 0.65rem;
+  color: var(--fap-muted);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.fap-metric-card__value {
+  font-family: var(--fap-font);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+/* ── Lista reportes ──────────────────────────────────────────────────── */
+.fap-report-list {
+  background: var(--fap-surface);
+  border: 1px solid var(--fap-border);
+  border-radius: 0.5rem;
+  padding: 0.85rem;
+}
+.fap-report-list__title {
+  font-family: var(--fap-font);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--fap-text);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.fap-report-list__title::before {
+  content: '■';
+  color: var(--fap-accent);
+  font-size: 0.8rem;
+}
+
+.fap-report-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 0.8rem;
+  transition: background 0.15s;
+}
+.fap-report-item:hover { background: rgba(255,255,255,0.02); }
+.fap-report-item:last-child { border-bottom: none; }
+
+.fap-report-item__tipo {
+  font-family: var(--fap-font);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: rgba(255, 90, 0, 0.15);
+  color: var(--fap-accent);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 90, 0, 0.3);
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .fap-panel {
+    width: calc(100vw - 2rem);
+    height: 75vh;
+  }
+}

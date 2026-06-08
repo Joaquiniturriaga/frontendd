@@ -14,7 +14,7 @@ import MapPage from './pages/MapPage'
 import AdminPage from './pages/AdminPage'
 import AdminHomePage from './pages/AdminHomePage'
 import './App.css'
-
+import FireAgentPanel from "./components/agent/FireAgentPanel";
 //Children es el componente que esta adentro
 function AdminRoute({ children }) {
   const { user } = useAuthContext() //Ocumaos todo lo de auth context del provider y nos quedamos con user
@@ -27,7 +27,7 @@ function AppContent() { //
   const { user } = useAuthContext()
   return (
     <>
-      {user && <NavBar />}//Si user esta mostramos
+      {user && <NavBar />}
       <Routes>
         <Route path="/"           element={<Navigate to="/login" replace />} />
         <Route path="/login"      element={<LoginPage />} />
@@ -38,17 +38,21 @@ function AppContent() { //
         <Route path="/map"        element={<ProtectedRoute><MapPage /></ProtectedRoute>} />
         <Route path="/admin"      element={<AdminRoute><AdminPage /></AdminRoute>} />
         <Route path="/admin/home" element={<AdminRoute><AdminHomePage /></AdminRoute>} />
+
       </Routes>
+
+      {user && <FireAgentPanel />} 
+
     </>
   )
 }
 
 export default function App() {
   return (
-    <BrowserRouter>//React entiende con esto
-      <AuthProvider>//Auth provider nos hace disponible lo de auth context
-        <ThemeProvider>  //Tema
-          <AppContent /> //Rutas
+    <BrowserRouter>
+      <AuthProvider>
+        <ThemeProvider>  
+          <AppContent /> 
         </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>

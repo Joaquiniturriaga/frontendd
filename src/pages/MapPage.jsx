@@ -15,7 +15,7 @@ import { useReports } from '../hooks/useReports'
 import { useLocation } from '../hooks/useLocation'
 import { usePolling } from '../hooks/usePolling'
 import { useAuth } from '../hooks/useAuth'
-
+import { useCallback } from 'react'
 import {
   getActiveBrigades,
   brigadeRespond,
@@ -31,32 +31,31 @@ import '../styles/pages/MapPage.css'
 const centro = [-34.1703, -70.7431]
 
 const TIPOS = [
-  { value: 'INCENDIO', label: 'Incendio activo' },
-  { value: 'FOCO', label: 'Foco pequeño' },
-  { value: 'HUMO', label: 'Humo visible' },
+  { value: 'INCENDIO',   label: '🔥 Incendio activo' },
+  { value: 'ACCIDENTE',  label: '🚗 Accidente'        },
+  { value: 'DERRUMBE',   label: '⛰️ Derrumbe'         },
+  { value: 'INUNDACION', label: '💧 Inundación'       },
 ]
 
+
 const iconoPorTipo = (tipo) => {
-  const clase =
-    tipo === 'INCENDIO'
-      ? 'incendio'
-      : tipo === 'FOCO'
-      ? 'foco'
-      : 'otro'
-
-  const letra =
-    tipo === 'INCENDIO'
-      ? 'I'
-      : tipo === 'FOCO'
-      ? 'F'
-      : 'O'
-
+  const MAP = {
+    INCENDIO:   { clase: 'incendio', letra: 'I' },
+    ACCIDENTE:  { clase: 'foco',     letra: 'A' },
+    DERRUMBE:   { clase: 'otro',     letra: 'D' },
+    INUNDACION: { clase: 'otro',     letra: '~' },
+    // compat con reportes viejos que tengan FOCO/HUMO en DB
+    FOCO:       { clase: 'foco',     letra: 'F' },
+    HUMO:       { clase: 'otro',     letra: 'H' },
+  }
+  const { clase, letra } = MAP[tipo] ?? { clase: 'otro', letra: 'O' }
   return L.divIcon({
     html: `<div class="map-marker map-marker--${clase}">${letra}</div>`,
     className: '',
     iconAnchor: [14, 14],
   })
 }
+
 
 const iconoCamion = L.divIcon({
   html: `<div class="map-marker map-marker--camion">🚒</div>`,
@@ -104,6 +103,10 @@ export default function MapPage() {
   const { reports, loading, addReport, refetch } = useReports()
   const { userLocation } = useLocation()
   const { user } = useAuth()
+const [respondError, setRespondError] = useState({})
+  useEffect(() => {
+    console.log("👤 user:", JSON.stringify(user, null, 2))
+  }, [user])
 
   const [pending, setPending] = useState(null)
 
@@ -119,29 +122,38 @@ export default function MapPage() {
   const [activeBrigades, setActiveBrigades] = useState([])
 
   const [responding, setResponding] = useState(false)
-  const [updatingStatus, setUpdatingStatus] = useState(false)
+const [updatingStatus, setUpdatingStatus] = useState(false)
 
-  usePolling(() => {
-    getActiveBrigades()
-      .then((data) => {
-        setActiveBrigades(Array.isArray(data) ? data : [])
-      })
-      .catch(() => {})
-  }, 60000)
+const fetchBrigades = useCallback(async () => {
+  try {
+    const data = await getActiveBrigades()
+
+    if (Array.isArray(data) && data.length > 0) {
+      // JSON.stringify para ver campos reales, no "Object"
+      console.log("🔍 Brigada RAW:", JSON.stringify(data[0], null, 2))
+    } else {
+      console.log("🔍 getActiveBrigades devolvió:", JSON.stringify(data))
+    }
+
+    setActiveBrigades(Array.isArray(data) ? data : [])
+  } catch (err) {
+    console.error("❌ fetchBrigades error:", err.message)
+  }
+}, [])
+
+  usePolling(fetchBrigades, 60000)
 
   const handleMapClick = (lat, lng) => {
     setPending({ lat, lng })
-
     setForm({
       title: '',
       description: '',
       tipo: 'INCENDIO',
     })
-
     setFormError(null)
   }
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!form.title.trim()) {
@@ -159,7 +171,6 @@ export default function MapPage() {
         pending.lng,
         form.tipo
       )
-
       setPending(null)
     } catch (err) {
       setFormError(err.message)
@@ -168,44 +179,45 @@ export default function MapPage() {
     }
   }
 
-  const handleRespond = async (reportId) => {
-    setResponding(true)
+const handleRespond = async (reportId) => {
+  setResponding(true)
+  setRespondError(prev => ({ ...prev, [reportId]: null }))
 
-    try {
-      await brigadeRespond(reportId, 'EN_CAMINO')
-
-      if (userLocation) {
-        await updateBrigadeLocation(
-          reportId,
-          userLocation.lat,
-          userLocation.lng
-        )
-      }
-
-      refetch()
-    } catch (err) {
-      console.error(err.message)
-    } finally {
-      setResponding(false)
+  try {
+    await brigadeRespond(reportId, 'EN_CAMINO')
+    if (userLocation) {
+      await updateBrigadeLocation(reportId, userLocation.lat, userLocation.lng)
     }
+    refetch()
+    setTimeout(() => fetchBrigades(), 500)
+  } catch (err) {
+    setRespondError(prev => ({
+      ...prev,
+      [reportId]: err.message ?? 'Error al responder'
+    }))
+    console.error('brigadeRespond falló:', err)
+  } finally {
+    setResponding(false)
   }
-
-  const handleUpdateReportStatus = async (reportId, status) => {
-    setUpdatingStatus(true)
-
-    try {
-      await apiFetch(`/api/reports/${reportId}/status`, {
-        method: 'PUT',
-        body: JSON.stringify({ status }),
-      })
-
-      refetch()
-    } catch (err) {
-      console.error(err.message)
-    } finally {
-      setUpdatingStatus(false)
+}
+const handleUpdateReportStatus = async (reportId, status) => {
+  setUpdatingStatus(true)
+  try {
+    await apiFetch(`/api/reports/${reportId}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    })
+    refetch()
+    // Al descartar, limpia también las brigadas del mapa
+    if (status === 'DISMISSED') {
+      setTimeout(() => fetchBrigades(), 500)
     }
+  } catch (err) {
+    console.error(err.message)
+  } finally {
+    setUpdatingStatus(false)
   }
+}
 
   return (
     <div className="map-container">
@@ -279,101 +291,91 @@ export default function MapPage() {
 
         <MapCenterer location={userLocation} />
 
-        {reports.map((r) => (
-          <Marker
-            key={r.id}
-            position={[r.lat, r.lng]}
-            icon={iconoPorTipo(r.tipo)}
-          >
-            <Popup>
-              <p className="map-popup-title">
-                {r.title}
+{reports
+        .filter(r => r.status !== 'DISMISSED')
+        .map((r) => {
+  // Busca si alguna brigada está respondiendo este reporte
+  const brigada = activeBrigades.find(b => b.report_id === r.id)
+
+  return (
+    <Marker key={r.id} position={[r.lat, r.lng]} icon={iconoPorTipo(r.tipo)}>
+      <Popup>
+        <p className="map-popup-title">{r.title}</p>
+        <p className="map-popup-desc">{r.description}</p>
+        <small className="map-popup-meta">{r.status}</small>
+
+        {/* Brigada respondiendo — aparece automáticamente después del respond */}
+        {brigada && (
+          <p className="map-brigade-info">
+            🚒 {brigada.brigade_nombre}
+            <span className="map-brigade-estado">
+              {brigada.estado.replace('_', ' ')}
+            </span>
+          </p>
+        )}
+
+        {user?.brigade_id && r.status === 'ACTIVE' && (
+          <>
+            <button
+              className="map-respond-btn"
+              disabled={responding}
+              onClick={() => handleRespond(r.id)}
+            >
+              {responding ? 'Enviando...' : 'Responder'}
+            </button>
+            {respondError[r.id] && (
+              <p style={{ color: '#ef4444', fontSize: 11, margin: '4px 0 0' }}>
+                ❌ {respondError[r.id]}
               </p>
+            )}
+          </>
+        )}
 
-              <p className="map-popup-desc">
-                {r.description}
-              </p>
+        {user?.brigade_id && (
+          <div className="map-status-actions">
+            {r.status !== 'CONTROLLED' && (
+              <button className="map-status-btn map-status-btn--controlled"
+                disabled={updatingStatus}
+                onClick={() => handleUpdateReportStatus(r.id, 'CONTROLLED')}>
+                Controlado
+              </button>
+            )}
+            {r.status !== 'REVIEWED' && (
+              <button className="map-status-btn map-status-btn--reviewed"
+                disabled={updatingStatus}
+                onClick={() => handleUpdateReportStatus(r.id, 'REVIEWED')}>
+                Revisado
+              </button>
+            )}
+            {r.status !== 'DISMISSED' && (
+              <button className="map-status-btn map-status-btn--dismissed"
+                disabled={updatingStatus}
+                onClick={() => handleUpdateReportStatus(r.id, 'DISMISSED')}>
+                Descartar
+              </button>
+            )}
+          </div>
+        )}
+      </Popup>
+    </Marker>
+  )
+})}
 
-              <small className="map-popup-meta">
-                {r.status}
-              </small>
-
-              {user?.brigade_id && r.status === 'ACTIVE' && (
-                <button
-                  className="map-respond-btn"
-                  disabled={responding}
-                  onClick={() => handleRespond(r.id)}
-                >
-                  {responding
-                    ? 'Enviando...'
-                    : 'Responder'}
-                </button>
-              )}
-
-              {user?.brigade_id && (
-                <div className="map-status-actions">
-                  {r.status !== 'CONTROLLED' && (
-                    <button
-                      className="map-status-btn map-status-btn--controlled"
-                      disabled={updatingStatus}
-                      onClick={() =>
-                        handleUpdateReportStatus(
-                          r.id,
-                          'CONTROLLED'
-                        )
-                      }
-                    >
-                      Controlado
-                    </button>
-                  )}
-
-                  {r.status !== 'REVIEWED' && (
-                    <button
-                      className="map-status-btn map-status-btn--reviewed"
-                      disabled={updatingStatus}
-                      onClick={() =>
-                        handleUpdateReportStatus(
-                          r.id,
-                          'REVIEWED'
-                        )
-                      }
-                    >
-                      Revisado
-                    </button>
-                  )}
-
-                  {r.status !== 'DISMISSED' && (
-                    <button
-                      className="map-status-btn map-status-btn--dismissed"
-                      disabled={updatingStatus}
-                      onClick={() =>
-                        handleUpdateReportStatus(
-                          r.id,
-                          'DISMISSED'
-                        )
-                      }
-                    >
-                      Descartar
-                    </button>
-                  )}
-                </div>
-              )}
-            </Popup>
-          </Marker>
-        ))}
-
-        {activeBrigades.map((b) => (
-          <Marker
-            key={b.id}
-            position={[b.lat, b.lng]}
-            icon={iconoCamion}
-          >
-            <Popup>
-              <p>🚒 {b.brigade_nombre}</p>
-            </Popup>
-          </Marker>
-        ))}
-
+{activeBrigades
+  .filter(b => {
+    const reporte = reports.find(r => r.id === b.report_id)
+    return reporte && reporte.status !== 'DISMISSED'
+  })
+  .map((b) => (  <Marker
+    key={b.id}
+    position={[parseFloat(b.lat), parseFloat(b.lng)]}
+    icon={iconoCamion}
+  >
+    <Popup>
+      <p>🚒 {b.brigade_nombre}</p>
+    </Popup>
+  </Marker>
+))}
         {userLocation && (
           <Marker
             position={[

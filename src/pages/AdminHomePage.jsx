@@ -3,9 +3,22 @@ import { getAllUsers, getBrigadas } from '../api/user.api'
 import { getReports } from '../api/report.api'
 import { apiFetch } from '../api/client'
 import '../styles/pages/AdminHomePage.css'
-
-const TIPO_COLORS = { INCENDIO: '#E24B4A', FOCO: '#EF9F27', HUMO: '#888780' }
-const TIPO_ICON   = { INCENDIO: 'ti-flame', FOCO: 'ti-alert-triangle', HUMO: 'ti-cloud' }
+const TIPO_COLORS = {
+  INCENDIO:   '#E24B4A',
+  ACCIDENTE:  '#EF9F27',
+  DERRUMBE:   '#8B5CF6',
+  INUNDACION: '#3B82F6',
+  FOCO:       '#EF9F27',
+  HUMO:       '#888780',
+}
+const TIPO_ICON = {
+  INCENDIO:   'ti-flame',
+  ACCIDENTE:  'ti-car',
+  DERRUMBE:   'ti-alert-triangle',
+  INUNDACION: 'ti-droplet',
+  FOCO:       'ti-alert-triangle',
+  HUMO:       'ti-cloud',
+}
 
 function StatCard({ value, label, dotColor, pulse = false }) {
   return (
@@ -78,9 +91,9 @@ export default function AdminHomePage() {
   const pendingUsers   = users.filter(u => u.estado === 'PENDING').length
   const total          = reports.length || 1
 
-  const tipoData     = ['INCENDIO', 'FOCO', 'HUMO'].map(tipo => ({
-    tipo, count: reports.filter(r => r.tipo === tipo).length,
-  }))
+const tipoData = ['INCENDIO', 'ACCIDENTE', 'DERRUMBE', 'INUNDACION'].map(tipo => ({
+  tipo, count: reports.filter(r => r.tipo === tipo).length,
+}))
 
   const statusData   = Object.keys(STATUS_CONFIG).map(s => ({
     status: s, count: reports.filter(r => r.status === s).length,
@@ -147,7 +160,7 @@ export default function AdminHomePage() {
                 return (
                   <tr key={r.id}>
                     <td>
-                      <i className={`ti ${TIPO_ICON[r.tipo]}`} style={{ color: TIPO_COLORS[r.tipo], fontSize: 15, verticalAlign: -2 }} aria-hidden="true" />
+                      <i className={`ti ${TIPO_ICON[r.tipo] ?? 'ti-alert-circle'}`} style={{ color: TIPO_COLORS[r.tipo], fontSize: 15, verticalAlign: -2 }} aria-hidden="true" />
                       {' '}{r.tipo.toLowerCase()}
                     </td>
                     <td>{r.title}</td>

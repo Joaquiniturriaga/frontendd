@@ -487,3 +487,10 @@
 
 [data-theme="dark"] .db-show-more { color: #f09595; }
 [data-theme="dark"] .db-show-more:hover { background: rgba(162,45,45,0.15); }
+
+.badge-accidente  { background: rgba(239,159, 39,0.15); color: #b45309; }
+.badge-derrumbe   { background: rgba(139, 92,246,0.15); color: #6d28d9; }
+.badge-inundacion { background: rgba( 59,130,246,0.15); color: #1d4ed8; }
+
+.badge-foco { background: rgba(239,159, 39,0.15); color: #b45309; }
+.badge-humo { background: rgba(136,135,128,0.15); color: #4b5563; }

@@ -7,9 +7,12 @@ import { timeAgo, formatDuration } from '../utils/time'
 
 
 const TIPO_CONFIG = {
-  INCENDIO: { emoji: '🔥', label: 'Fire',   badgeCls: 'badge-incendio' },
-  FOCO:     { emoji: '⚠️', label: 'Source', badgeCls: 'badge-foco'     },
-  HUMO:     { emoji: '💨', label: 'Smoke',  badgeCls: 'badge-humo'     },
+  INCENDIO:   { emoji: '🔥', label: 'Incendio',   badgeCls: 'badge-incendio'   },
+  ACCIDENTE:  { emoji: '🚗', label: 'Accidente',  badgeCls: 'badge-accidente'  },
+  DERRUMBE:   { emoji: '⛰️', label: 'Derrumbe',   badgeCls: 'badge-derrumbe'   },
+  INUNDACION: { emoji: '💧', label: 'Inundación', badgeCls: 'badge-inundacion' },
+  FOCO:       { emoji: '⚠️', label: 'Foco',       badgeCls: 'badge-foco'       },
+  HUMO:       { emoji: '💨', label: 'Humo',       badgeCls: 'badge-humo'       },
 }
 
 const STATUS_CONFIG = {
@@ -20,14 +23,14 @@ const STATUS_CONFIG = {
 }
 
 const FILTERS = [
-  { key: 'ALL',        label: 'All'        },
-  { key: 'INCENDIO',   label: '🔥 Fire'    },
-  { key: 'FOCO',       label: '⚠️ Source'  },
-  { key: 'HUMO',       label: '💨 Smoke'   },
-  { key: 'ACTIVE',     label: 'Active'     },
-  { key: 'CONTROLLED', label: 'Controlled' },
+  { key: 'ALL',        label: 'All'           },
+  { key: 'INCENDIO',   label: '🔥 Incendio'   },
+  { key: 'ACCIDENTE',  label: '🚗 Accidente'  },
+  { key: 'DERRUMBE',   label: '⛰️ Derrumbe'   },
+  { key: 'INUNDACION', label: '💧 Inundación' },
+  { key: 'ACTIVE',     label: 'Active'        },
+  { key: 'Controlled', label: 'Controlled'    },
 ]
-
 const PAGE_SIZE = 20
 
 
@@ -142,7 +145,7 @@ export default function DashboardPage() {
         )}
 
         {paginated.map(r => {
-          const tipo   = TIPO_CONFIG[r.tipo]    || TIPO_CONFIG.INCENDIO
+const tipo = TIPO_CONFIG[r.tipo] ?? TIPO_CONFIG.INCENDIO
           const status = STATUS_CONFIG[r.status] || STATUS_CONFIG.ACTIVE
           const dist   = userLocation
             ? haversineKm(userLocation.lat, userLocation.lng, r.lat, r.lng)
