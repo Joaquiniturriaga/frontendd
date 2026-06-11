@@ -11,7 +11,7 @@ export default function NavBar() {
 const links = [
   { label: 'Dashboard',         ruta: '/dashboard' },
   { label: 'Mapa de incendios', ruta: '/map' },  
-  { label: 'Mi perfil',         ruta: '/profile' },
+  { label: 'Perfil',            ruta: '/profile' },
   ...(user?.role === 'admin' ? [{ label: '⚙️ Admin', ruta: '/admin' }] : []),
 
 ]
