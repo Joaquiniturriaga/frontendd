@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
+import { IconAlertTriangle, IconArrowsMaximize, IconFlame, IconMap } from '@tabler/icons-react'
 import { useReports } from '../hooks/useReports'
 import { useLocation } from '../hooks/useLocation'
 import '../styles/pages/HomePages.css'
@@ -105,7 +106,9 @@ export default function HomePage() {
                   onClick={() => navigate(ruta)}
                 >
                   <div className={`home-action-icon home-action-icon--${variant}`}>
-                    <i className={`ti ${icon}`} aria-hidden="true" />
+                    {icon === 'ti-flame' && <IconFlame size={18} />}
+                    {icon === 'ti-alert-triangle' && <IconAlertTriangle size={18} />}
+                    {icon === 'ti-map' && <IconMap size={18} />}
                   </div>
                   <div>
                     <p className="home-action-label">{label}</p>
@@ -169,7 +172,7 @@ export default function HomePage() {
           </div>
 
           <p className="home-map-hint">
-            <i className="ti ti-arrows-maximize" style={{ fontSize: 13, marginRight: 4 }} aria-hidden="true" />
+            <IconArrowsMaximize size={13} style={{ marginRight: 4 }} aria-hidden="true" />
             Click to open full map
           </p>
         </div>
