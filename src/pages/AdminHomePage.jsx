@@ -102,7 +102,7 @@ const tipoData = ['INCENDIO', 'ACCIDENTE', 'DERRUMBE', 'INUNDACION'].map(tipo =>
   return (
     <div className="adminhome-container">
       <p className="adminhome-page-title">
-        <i className="ti ti-dashboard" aria-hidden="true" /> Admin overview
+        <i className="ti ti-dashboard" aria-hidden="true" /> Admin Overview
       </p>
 
       {activeReports > 0 && (

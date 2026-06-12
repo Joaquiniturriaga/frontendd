@@ -77,7 +77,7 @@ export default function DashboardPage() {
   const hasDateFilter = dateFrom || dateTo
 
   return (
-    <div className="db-layout">
+    <div className="db-layout" style={{ gridTemplateColumns: selectedReport ? undefined : '1fr' }}>
 
       {/* ── LIST PANEL ─────────────────────────── */}
       <div className="db-list">
@@ -179,98 +179,96 @@ const tipo = TIPO_CONFIG[r.tipo] ?? TIPO_CONFIG.INCENDIO
       </div>
 
       {/* ── DETAIL PANEL ───────────────────────── */}
-      <div className="db-detail">
-        {!selectedReport ? (
-          <div className="db-detail-empty">
-            <span className="db-detail-empty-icon">🗺️</span>
-            <p>Select a report to view details</p>
-          </div>
-        ) : (() => {
-          const tipo   = TIPO_CONFIG[selectedReport.tipo]    || TIPO_CONFIG.INCENDIO
-          const status = STATUS_CONFIG[selectedReport.status] || STATUS_CONFIG.ACTIVE
-          const duration = Math.floor((Date.now() - new Date(selectedReport.created_at).getTime()) / 60000)
-          const durationStr = duration < 60
-            ? `${duration} min`
-            : duration < 1440
-            ? `${Math.floor(duration/60)}h ${duration%60}m`
-            : `${Math.floor(duration/1440)}d`
+      {selectedReport && (() => {
+        const tipo   = TIPO_CONFIG[selectedReport.tipo]    || TIPO_CONFIG.INCENDIO
+        const status = STATUS_CONFIG[selectedReport.status] || STATUS_CONFIG.ACTIVE
+        const duration = Math.floor((Date.now() - new Date(selectedReport.created_at).getTime()) / 60000)
+        const durationStr = duration < 60
+          ? `${duration} min`
+          : duration < 1440
+          ? `${Math.floor(duration/60)}h ${duration%60}m`
+          : `${Math.floor(duration/1440)}d`
 
-          return (
-            <>
-              <div className="db-detail-header">
-                <div className="db-detail-type-row">
-                  <div className={`db-detail-icon ${tipo.badgeCls}`}>{tipo.emoji}</div>
-                  <div>
-                    <p className="db-detail-title">{selectedReport.title}</p>
-                    <p className="db-detail-subtitle">{tipo.label} · reported {timeAgo(selectedReport.created_at)}</p>
-                  </div>
+        return (
+          <div className="db-detail">
+            <div className="db-detail-header">
+              <div className="db-detail-type-row">
+                <div className={`db-detail-icon ${tipo.badgeCls}`}>{tipo.emoji}</div>
+                <div>
+                  <p className="db-detail-title">{selectedReport.title}</p>
+                  <p className="db-detail-subtitle">{tipo.label} · reported {timeAgo(selectedReport.created_at)}</p>
                 </div>
+              </div>
+              <div className="db-detail-header-right">
                 <span className={`db-status-pill ${status.pillCls}`}>
                   <span className={`db-dot ${status.dotCls} ${status.pulse ? 'db-dot--pulse' : ''}`} />
                   {status.label}
                 </span>
+                <button className="db-detail-close" onClick={() => setSelected(null)}>
+                  Close
+                </button>
               </div>
+            </div>
 
-              <div className="db-detail-body">
-                <div>
-                  <p className="db-detail-section">Overview</p>
-                  <div className="db-stats-grid">
-                    <div className="db-stat">
-                      <p className="db-stat-value">{distKm !== null ? `${distKm.toFixed(1)} km` : '—'}</p>
-                      <p className="db-stat-label">Distance from you</p>
-                    </div>
-                    <div className="db-stat">
-                      <p className="db-stat-value">{durationStr}</p>
-                      <p className="db-stat-label">Active for</p>
-                    </div>
-                    <div className="db-stat">
-                      <p className="db-stat-value">{parseFloat(selectedReport.lat).toFixed(4)}</p>
-                      <p className="db-stat-label">Latitude</p>
-                    </div>
-                    <div className="db-stat">
-                      <p className="db-stat-value">{parseFloat(selectedReport.lng).toFixed(4)}</p>
-                      <p className="db-stat-label">Longitude</p>
-                    </div>
+            <div className="db-detail-body">
+              <div>
+                <p className="db-detail-section">Overview</p>
+                <div className="db-stats-grid">
+                  <div className="db-stat">
+                    <p className="db-stat-value">{distKm !== null ? `${distKm.toFixed(1)} km` : '—'}</p>
+                    <p className="db-stat-label">Distance from you</p>
+                  </div>
+                  <div className="db-stat">
+                    <p className="db-stat-value">{durationStr}</p>
+                    <p className="db-stat-label">Active for</p>
+                  </div>
+                  <div className="db-stat">
+                    <p className="db-stat-value">{parseFloat(selectedReport.lat).toFixed(4)}</p>
+                    <p className="db-stat-label">Latitude</p>
+                  </div>
+                  <div className="db-stat">
+                    <p className="db-stat-value">{parseFloat(selectedReport.lng).toFixed(4)}</p>
+                    <p className="db-stat-label">Longitude</p>
                   </div>
                 </div>
+              </div>
 
-                {selectedReport.description && (
-                  <div>
-                    <p className="db-detail-section">Description</p>
-                    <p className="db-detail-desc">{selectedReport.description}</p>
-                  </div>
-                )}
-
+              {selectedReport.description && (
                 <div>
-                  <p className="db-detail-section">Timeline</p>
-                  <div className="db-timeline">
+                  <p className="db-detail-section">Description</p>
+                  <p className="db-detail-desc">{selectedReport.description}</p>
+                </div>
+              )}
+
+              <div>
+                <p className="db-detail-section">Timeline</p>
+                <div className="db-timeline">
+                  <div className="db-tl-item">
+                    <div className="db-tl-dot-wrap">
+                      <div className="db-tl-dot db-tl-dot-created" />
+                      <div className="db-tl-line" />
+                    </div>
+                    <div>
+                      <p className="db-tl-text">Report created</p>
+                      <p className="db-tl-time">{new Date(selectedReport.created_at).toLocaleString()}</p>
+                    </div>
+                  </div>
+                  {selectedReport.status !== 'ACTIVE' && (
                     <div className="db-tl-item">
                       <div className="db-tl-dot-wrap">
-                        <div className="db-tl-dot" style={{ background: '#E24B4A' }} />
-                        <div className="db-tl-line" />
+                        <div className="db-tl-dot db-tl-dot-changed" />
                       </div>
                       <div>
-                        <p className="db-tl-text">Report created</p>
-                        <p className="db-tl-time">{new Date(selectedReport.created_at).toLocaleString()}</p>
+                        <p className="db-tl-text">Status changed to {selectedReport.status.toLowerCase()}</p>
                       </div>
                     </div>
-                    {selectedReport.status !== 'ACTIVE' && (
-                      <div className="db-tl-item">
-                        <div className="db-tl-dot-wrap">
-                          <div className="db-tl-dot" style={{ background: '#EF9F27' }} />
-                        </div>
-                        <div>
-                          <p className="db-tl-text">Status changed to {selectedReport.status.toLowerCase()}</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
-            </>
-          )
-        })()}
-      </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
