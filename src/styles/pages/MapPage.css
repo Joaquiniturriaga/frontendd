@@ -1,7 +1,12 @@
 .map-container {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 58px);
   width: 100%;
   position: relative;
+}
+
+.map-tile {
+  height: 100%;
+  width: 100%;
 }
 
 .map-loading {
@@ -10,44 +15,142 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
-  background-color: white;
-  border: 1px solid #dddddd;
-  border-radius: 6px;
+  background: var(--bg-card);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
   padding: 6px 14px;
   font-size: 13px;
-  font-family: Arial, sans-serif;
-  color: #333333;
+  font-family: system-ui, Arial, sans-serif;
+  color: var(--text-primary);
 }
 
-.map-tile {
-  height: 100%;
-  width: 100%;
-}
-
-/* ─── POPUP ───────────────────────────────────── */
-
-.map-popup-title {
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  font-weight: bold;
-  color: #cc2200;
-  margin-bottom: 4px;
-}
-
-.map-popup-desc {
+.map-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: rgba(0,0,0,0.7);
+  color: white;
   font-size: 13px;
-  font-family: Arial, sans-serif;
-  color: #333333;
-  margin-bottom: 6px;
+  font-family: system-ui, Arial, sans-serif;
+  padding: 8px 16px;
+  border-radius: 20px;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
-.map-popup-meta {
-  font-size: 11px;
-  font-family: Arial, sans-serif;
-  color: #888888;
+/* ─── OVERLAY FORM ─────────────────────────────── */
+
+.map-form-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 999;
+  background: var(--bg-card);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  width: 260px;
 }
 
-/* ─── ÍCONO MARCADOR ──────────────────────────── */
+.map-form-coords {
+  font-size: 12px;
+  font-family: system-ui, Arial, sans-serif;
+  color: var(--text-secondary);
+  margin: 0 0 10px 0;
+}
+
+.map-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.map-form-select,
+.map-form-input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--bg-input);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  color: var(--text-primary);
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.map-form-select:focus,
+.map-form-input:focus {
+  border-color: #b91c1c;
+}
+
+.map-form-error {
+  font-size: 12px;
+  color: #b91c1c;
+  font-family: system-ui, Arial, sans-serif;
+  margin: 0;
+}
+
+[data-theme="dark"] .map-form-error { color: #f09595; }
+
+.map-form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.map-form-cancel {
+  flex: 1;
+  padding: 8px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: system-ui, Arial, sans-serif;
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.map-form-cancel:hover { background: var(--border); }
+
+.map-form-submit {
+  flex: 1;
+  padding: 8px;
+  background: #b91c1c;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: system-ui, Arial, sans-serif;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.map-form-submit:hover    { background: #991b1b; }
+.map-form-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+/* ─── RESPOND BTN ──────────────────────────────── */
+.map-respond-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: system-ui, Arial, sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.map-respond-btn:hover:not(:disabled) { background: #1e40af; }
+.map-respond-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+/* ─── MARKERS ──────────────────────────────────── */
 
 .map-marker {
   width: 28px;
@@ -60,18 +163,102 @@
   font-size: 12px;
   font-weight: bold;
   color: white;
-  font-family: Arial, sans-serif;
+  font-family: system-ui, Arial, sans-serif;
   box-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
-.map-marker--incendio {
-  background-color: #cc2200;
+.map-marker--incendio  { background-color: #b91c1c; }
+.map-marker--foco      { background-color: #c2410c; }
+.map-marker--otro      { background-color: #1e1e23; }
+.map-marker--pendiente { background-color: #185FA5; }
+.map-marker--camion {
+  background-color: white; 
+  z-index: 1000 !important;
+  font-size: 20px;
+  border: 2px solid #2563eb !important; 
+}
+/* ─── POPUP ────────────────────────────────────── */
+
+.map-popup-title {
+  font-size: 14px;
+  font-family: system-ui, Arial, sans-serif;
+  font-weight: 500;
+  color: #b91c1c;
+  margin-bottom: 4px;
 }
 
-.map-marker--foco {
-  background-color: #e65c00;
+.map-popup-desc {
+  font-size: 13px;
+  font-family: system-ui, Arial, sans-serif;
+  color: #333333;
+  margin-bottom: 6px;
 }
 
-.map-marker--otro {
-  background-color: #333333;
+.map-popup-meta {
+  font-size: 11px;
+  font-family: system-ui, Arial, sans-serif;
+  color: #888888;
+}
+
+@media (max-width: 767px) {
+  .map-form-overlay {
+    top: auto;
+    bottom: 60px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+  }
+}
+
+.map-marker--usuario {
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-status-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.map-status-btn {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+
+.map-status-btn:hover    { opacity: 1; }
+.map-status-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.map-status-btn--controlled { background: #EF9F27; color: #633806; }
+.map-status-btn--reviewed   { background: #639922; color: #173404; }
+.map-status-btn--dismissed  { background: #888780; color: #2C2C2A; }
+
+.map-brigade-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 12px;
+  font-family: system-ui, Arial, sans-serif;
+  color: #1d4ed8;
+  font-weight: 500;
+}
+.map-brigade-estado {
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }

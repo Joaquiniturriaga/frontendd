@@ -3,13 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "lint": "eslint .",
+  "preview": "vite preview",
+  "test": "karma start karma.conf.cjs --single-run",
+  "test:watch": "karma start"
+},
   "dependencies": {
+    "@tabler/icons-react": "^3.44.0",
     "leaflet": "^1.9.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
@@ -17,14 +20,30 @@
     "react-router-dom": "^7.15.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-react": "^7.29.7",
     "@eslint/js": "^10.0.1",
+    "@testing-library/jasmine-dom": "^1.3.3",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "babel-loader": "^10.1.1",
+    "css-loader": "^7.1.4",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "jasmine-core": "^6.3.0",
+    "karma": "^6.4.4",
+    "karma-babel-preprocessor": "^8.0.2",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.2.0",
+    "karma-webpack": "^5.0.1",
+    "style-loader": "^4.0.0",
     "vite": "^8.0.10"
   }
 }
