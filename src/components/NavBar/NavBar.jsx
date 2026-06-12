@@ -20,16 +20,11 @@ export default function NavBar() {
   const { user } = useAuthContext()
   const { theme, toggleTheme } = useTheme()
 
-  const links = [
-    { label: 'Home',       ruta: '/home',       icon: <IconHome size={16} /> },
-    { label: 'Reports',    ruta: '/dashboard',  icon: <IconClipboardList size={16} /> },
-    { label: 'Fire map',   ruta: '/map',        icon: <IconMap size={16} /> },
-    { label: 'My profile', ruta: '/profile',    icon: <IconUser size={16} /> },
-    ...(user?.role === 'admin' ? [
-      { label: 'Overview', ruta: '/admin/home', icon: <IconLayoutDashboard size={16} /> },
-      { label: 'Panel',    ruta: '/admin',      icon: <IconSettings size={16} /> },
-    ] : []),
-  ]
+const links = [
+  { label: 'Dashboard',         ruta: '/dashboard' },
+  { label: 'Mapa de incendios', ruta: '/map' },  
+  { label: 'Perfil',            ruta: '/profile' },
+  ...(user?.role === 'admin' ? [{ label: '⚙️ Admin', ruta: '/admin' }] : []),
 
   return (
     <>
