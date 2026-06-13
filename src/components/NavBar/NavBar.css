@@ -29,6 +29,19 @@
 }
 
 /* ─── LINKS (escritorio) ───────────────────── */
+.navbar__user-button {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.navbar__user-button:hover {
+  background-color: #aa1a00;
+}
 
 .navbar__links {
   display: flex;

@@ -102,7 +102,8 @@
   display: flex;
 }
 
-.navbar__mobile-menu a {
+.navbar__mobile-menu a,
+.navbar__mobile-menu-button {
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   font-size: 14px;
@@ -111,7 +112,19 @@
   transition: color 0.15s, background 0.15s;
 }
 
-.navbar__mobile-menu a:hover {
+.navbar__mobile-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.navbar__mobile-menu a:hover,
+.navbar__mobile-menu-button:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.06);
 }
@@ -131,6 +144,13 @@
 
   .navbar__hamburger {
     display: flex;
+  }
+
+  .navbar__theme-toggle,
+  .navbar__user-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
   }
 }
 
@@ -175,8 +195,23 @@
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.navbar__theme-toggle:hover {
+.navbar__theme-toggle:hover,
+.navbar__user-button:hover {
   background: rgba(255, 255, 255, 0.07);
   border-color: rgba(255, 255, 255, 0.25);
   color: #fff;
 }
+
+.navbar__user-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 7px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+

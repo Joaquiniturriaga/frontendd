@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
   IconHome,
   IconClipboardList,
@@ -17,6 +17,7 @@ import { useTheme } from '../context/ThemeContext'
 
 export default function NavBar() {
   const [menuAbierto, setMenuAbierto] = useState(false)
+  const navigate = useNavigate()
   const { user } = useAuthContext()
   const { theme, toggleTheme } = useTheme()
 
@@ -24,11 +25,26 @@ export default function NavBar() {
     { label: 'Home',       ruta: '/home',       icon: <IconHome size={16} /> },
     { label: 'Reports',    ruta: '/dashboard',  icon: <IconClipboardList size={16} /> },
     { label: 'Fire map',   ruta: '/map',        icon: <IconMap size={16} /> },
-    { label: 'My profile', ruta: '/profile',    icon: <IconUser size={16} /> },
     ...(user?.role === 'admin' ? [
       { label: 'Overview', ruta: '/admin/home', icon: <IconLayoutDashboard size={16} /> },
       { label: 'Panel',    ruta: '/admin',      icon: <IconSettings size={16} /> },
     ] : []),
+  ]
+
+  const mobileLinks = [
+    { label: 'Profile', ruta: '/profile', icon: <IconUser size={16} /> },
+    ...links,
+  ]
+
+  const mobileActions = [
+    {
+      label: 'Toggle theme',
+      action: () => {
+        toggleTheme()
+        setMenuAbierto(false)
+      },
+      icon: theme === 'light' ? <IconMoon size={16} /> : <IconSun size={16} />,
+    },
   ]
 
   return (
@@ -56,6 +72,7 @@ export default function NavBar() {
         )}
 
         <div className="navbar__right">
+
           <button
             className="navbar__theme-toggle"
             onClick={toggleTheme}
@@ -63,6 +80,16 @@ export default function NavBar() {
           >
             {theme === 'light' ? <IconMoon size={16} /> : <IconSun size={16} />}
           </button>
+
+          {user && (
+            <button
+              className="navbar__user-button"
+              onClick={() => navigate('/profile')}
+              aria-label="Go to profile"
+            >
+              <IconUser size={16} />
+            </button>
+          )}
 
           {user && (
             <button
@@ -78,7 +105,18 @@ export default function NavBar() {
 
       {user && (
         <div className={`navbar__mobile-menu ${menuAbierto ? 'open' : ''}`}>
-          {links.map(({ label, ruta, icon }) => (
+          {mobileActions.map(({ label, action, icon }) => (
+            <button
+              key={`mobile-action-${label}`}
+              type="button"
+              className="navbar__mobile-menu-button"
+              onClick={action}
+            >
+              {icon}
+              {label}
+            </button>
+          ))}
+          {mobileLinks.map(({ label, ruta, icon }) => (
             <NavLink
               key={`mobile-${ruta}`}
               to={ruta}

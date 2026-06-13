@@ -1,5 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-//Habilitamos el sistema de rutas, contenedor de rutas, definiinr rutas, redirige a otra ruta
+import { BrowserRouter, Routes, Route, Navigate, useLocation as useRouterLocation } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { useAuthContext } from './context/AuthContext'
 import { ThemeProvider } from './components/context/ThemeContext'
@@ -13,36 +12,43 @@ import ProfilePage from './pages/ProfilePage'
 import MapPage from './pages/MapPage'
 import AdminPage from './pages/AdminPage'
 import AdminHomePage from './pages/AdminHomePage'
+import FireAgentPanel from './components/agent/FireAgentPanel'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import './App.css'
-import FireAgentPanel from "./components/agent/FireAgentPanel";
-//Children es el componente que esta adentro
+
+const AUTH_PAGES = ['/login', '/register', '/forgot-password', '/reset-password']
+
 function AdminRoute({ children }) {
-  const { user } = useAuthContext() //Ocumaos todo lo de auth context del provider y nos quedamos con user
-  if (!user) return <Navigate to="/login" replace />//Si no existe el usuario
-  if (user.role !== 'admin') return <Navigate to="/home" replace />//Si es admin
+  const { user } = useAuthContext()
+  if (!user) return <Navigate to="/login" replace />
+  if (user.role !== 'admin') return <Navigate to="/home" replace />
   return children
 }
 
-function AppContent() { //
+function AppContent() {
   const { user } = useAuthContext()
+  const location = useRouterLocation() 
+
+  const isAuthPage = AUTH_PAGES.some(path => location.pathname.startsWith(path))
+
   return (
     <>
-      {user && <NavBar />}
+      {user && !isAuthPage && <NavBar />}
       <Routes>
-        <Route path="/"           element={<Navigate to="/login" replace />} />
-        <Route path="/login"      element={<LoginPage />} />
-        <Route path="/register"   element={<RegisterPage />} />
-        <Route path="/home"       element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
-        <Route path="/dashboard"  element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        <Route path="/profile"    element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-        <Route path="/map"        element={<ProtectedRoute><MapPage /></ProtectedRoute>} />
-        <Route path="/admin"      element={<AdminRoute><AdminPage /></AdminRoute>} />
-        <Route path="/admin/home" element={<AdminRoute><AdminHomePage /></AdminRoute>} />
-
+        <Route path="/"                element={<Navigate to="/login" replace />} />
+        <Route path="/login"           element={<LoginPage />} />
+        <Route path="/register"        element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password"  element={<ResetPassword />} />
+        <Route path="/home"            element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+        <Route path="/dashboard"       element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/profile"         element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path="/map"             element={<ProtectedRoute><MapPage /></ProtectedRoute>} />
+        <Route path="/admin"           element={<AdminRoute><AdminPage /></AdminRoute>} />
+        <Route path="/admin/home"      element={<AdminRoute><AdminHomePage /></AdminRoute>} />
       </Routes>
-
-      {user && <FireAgentPanel />} 
-
+      {user && !isAuthPage && <FireAgentPanel />}
     </>
   )
 }
@@ -51,8 +57,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <ThemeProvider>  
-          <AppContent /> 
+        <ThemeProvider>
+          <AppContent />
         </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>

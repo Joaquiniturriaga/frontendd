@@ -98,3 +98,13 @@
 
 .login-footer a { color: #b91c1c; text-decoration: none; }
 .login-footer a:hover { text-decoration: underline; }
+
+.login-success {
+  color: #2e7d32;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  text-align: center;
+}
