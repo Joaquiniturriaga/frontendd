@@ -43,6 +43,10 @@ export default function LoginPage() {
         <p className="login-footer">
           ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
         </p>
+
+        <p className="login-footer">
+          <Link to="/forgot-password">¿Olvidaste tu contraseña?</Link>
+        </p>  
       </div>
     </div>
   )

@@ -207,11 +207,18 @@ const handleUpdateReportStatus = async (reportId, status) => {
       method: 'PUT',
       body: JSON.stringify({ status }),
     })
-    refetch()
-    // Al descartar, limpia también las brigadas del mapa
+
     if (status === 'DISMISSED') {
+      // Libera la brigada de este reporte
+      await apiFetch('/api/users/brigadas/location/release', {
+        method: 'DELETE',
+        body: JSON.stringify({ report_id: reportId }),
+      }).catch(() => {}) 
+      
       setTimeout(() => fetchBrigades(), 500)
     }
+
+    refetch()
   } catch (err) {
     console.error(err.message)
   } finally {
