@@ -1,0 +1,217 @@
+.navbar {
+  background: rgba(15, 15, 20, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 58px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar__title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ─── LINKS (escritorio) ─────────────────────── */
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+}
+
+.navbar__links a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 400;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.navbar__links a:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.navbar__links a.active {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.18);
+  font-weight: 500;
+}
+
+/* ─── HAMBURGUESA (móvil) ────────────────────── */
+
+.navbar__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px 9px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.navbar__hamburger:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.navbar__hamburger span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+}
+
+/* ─── MENÚ MÓVIL ─────────────────────────────── */
+
+.navbar__mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: rgba(12, 12, 16, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+  padding: 6px 12px 12px;
+  gap: 2px;
+}
+
+.navbar__mobile-menu.open {
+  display: flex;
+}
+
+.navbar__mobile-menu a,
+.navbar__mobile-menu-button {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 11px 12px;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.navbar__mobile-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.navbar__mobile-menu a:hover,
+.navbar__mobile-menu-button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.navbar__mobile-menu a.active {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.16);
+  font-weight: 500;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+
+@media (max-width: 767px) {
+  .navbar__links {
+    display: none;
+  }
+
+  .navbar__hamburger {
+    display: flex;
+  }
+
+  .navbar__theme-toggle,
+  .navbar__user-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+}
+
+.navbar__brand-icon {
+  color: #ef4444;
+  flex-shrink: 0;
+}
+
+.navbar__links a,
+.navbar__mobile-menu a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navbar__mobile-menu a {
+  gap: 10px;
+}
+
+.navbar__mobile-menu a svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar__theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 7px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.navbar__theme-toggle:hover,
+.navbar__user-button:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.navbar__user-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 7px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
