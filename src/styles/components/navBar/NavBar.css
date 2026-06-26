@@ -1,179 +1,57 @@
 .navbar {
-  background: rgba(15, 15, 20, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 0 24px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  height: 58px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+  align-items: center;
+  padding: 0 24px;
+  height: 64px;
+  background-color: black;
+  color: white;
 }
 
 .navbar__brand {
   display: flex;
-  align-items: center;
   gap: 10px;
   text-decoration: none;
-}
-
-.navbar__title {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-/* ─── LINKS (escritorio) ─────────────────────── */
-
-.navbar__links {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  list-style: none;
-}
-
-.navbar__links a {
-  color: rgba(255, 255, 255, 0.55);
-  text-decoration: none;
-  font-size: 13.5px;
-  font-weight: 400;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: color 0.15s, background 0.15s;
-  letter-spacing: 0.01em;
-}
-
-.navbar__links a:hover {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.navbar__links a.active {
-  color: #fff;
-  background: rgba(239, 68, 68, 0.18);
-  font-weight: 500;
-}
-
-/* ─── HAMBURGUESA (móvil) ────────────────────── */
-
-.navbar__hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: 0.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 8px 9px;
-  transition: background 0.15s, border-color 0.15s;
-}
-
-.navbar__hamburger:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.navbar__hamburger span {
-  display: block;
-  width: 18px;
-  height: 1.5px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 2px;
-}
-
-/* ─── MENÚ MÓVIL ─────────────────────────────── */
-
-.navbar__mobile-menu {
-  display: none;
-  flex-direction: column;
-  background: rgba(12, 12, 16, 0.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
-  padding: 6px 12px 12px;
-  gap: 2px;
-}
-
-.navbar__mobile-menu.open {
-  display: flex;
-}
-
-.navbar__mobile-menu a,
-.navbar__mobile-menu-button {
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  font-size: 14px;
-  padding: 11px 12px;
-  border-radius: 8px;
-  transition: color 0.15s, background 0.15s;
-}
-
-.navbar__mobile-menu-button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  background: transparent;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-}
-
-.navbar__mobile-menu a:hover,
-.navbar__mobile-menu-button:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.navbar__mobile-menu a.active {
-  color: #fff;
-  background: rgba(239, 68, 68, 0.16);
-  font-weight: 500;
-}
-
-/* ─── RESPONSIVE ─────────────────────────────── */
-
-@media (max-width: 767px) {
-  .navbar__links {
-    display: none;
-  }
-
-  .navbar__hamburger {
-    display: flex;
-  }
-
-  .navbar__theme-toggle,
-  .navbar__user-button {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
+  color: inherit;
+  font-weight: 700;
+  font-size: 18px;
+  transition: opacity 0.2s;
 }
 
 .navbar__brand-icon {
-  color: #ef4444;
-  flex-shrink: 0;
+  color: crimson;
 }
 
-.navbar__links a,
-.navbar__mobile-menu a {
+.navbar__links {
+  display: flex;
+  list-style: none;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navbar__links a {
   display: flex;
   align-items: center;
   gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-.navbar__mobile-menu a {
-  gap: 10px;
+.navbar__links a:hover {
+  color: crimson;
+
 }
 
-.navbar__mobile-menu a svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
+.navbar__links a.active {
+  color: red;
 }
 
 .navbar__right {
@@ -186,32 +64,180 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: 0.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: white;
   cursor: pointer;
-  padding: 7px;
-  color: rgba(255, 255, 255, 0.6);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: all 0.2s ease;
 }
 
-.navbar__theme-toggle:hover,
-.navbar__user-button:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #fff;
+.navbar__theme-toggle:hover {
+  color: crimson;
 }
 
+/* Botón de perfil */
 .navbar__user-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: 0.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 7px;
-  color: rgba(255, 255, 255, 0.6);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
 }
 
+.navbar__user-button:hover {
+  color: crimson;
+}
+
+/* ============================================
+   MENÚ HAMBURGUESA
+   ============================================ */
+.navbar__hamburger {
+  display: none; /* Oculto en desktop xdxd */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.navbar__hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.navbar__mobile-menu {
+  display: none; /* Oculto por defecto */
+  flex-direction: column;
+  background-color: black;
+  padding: 8px 0;
+  border-top: 0.5px solid crimson;
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  box-shadow: 0 px 24px white;
+  animation: slideDown 0.3s ease;
+}
+
+.navbar__mobile-menu.open {
+  display: flex;
+}
+
+/* Animación de apertura */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   ITEMS DEL MENÚ MÓVIL
+   ============================================ */
+.navbar__mobile-menu a,
+.navbar__mobile-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  text-decoration: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.navbar__mobile-menu a:hover,
+.navbar__mobile-menu-button:hover {
+  color: crimson;
+}
+
+.navbar__mobile-menu a.active {
+  color: red;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  /* Ocultar links de escritorio */
+  .navbar__links {
+    display: none;
+  }
+
+  /* Mostrar hamburguesa */
+  .navbar__hamburger {
+    display: flex;
+  }
+
+  /* Reducir padding en móvil */
+  .navbar {
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .navbar__title {
+    font-size: 15px;
+  }
+
+  /* Menú móvil se posiciona debajo */
+  .navbar__mobile-menu {
+    top: 56px;
+  }
+
+  .navbar__mobile-menu a,
+  .navbar__mobile-menu-button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+/* ============================================
+   TABLETS PEQUEÑAS
+   ============================================ */
+@media (max-width: 480px) {
+  .navbar__title {
+    font-size: 13px;
+  }
+
+  .navbar__brand-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .navbar__theme-toggle,
+  .navbar__user-button {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ============================================
+   UTILIDADES (por si acaso)
+   ============================================ */
+/* Evita que el body se desplace cuando el menú está abierto */
+body.menu-open {
+  overflow: hidden;
+}

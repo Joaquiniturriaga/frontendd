@@ -4,15 +4,25 @@ import { useLocation } from '../hooks/useLocation'
 import '../styles/pages/DashboardPage.css'
 import { haversineKm } from '../utils/geo'
 import { timeAgo, formatDuration } from '../utils/time'
+import {
+  IconFlame,
+  IconCar,
+  IconMountain,
+  IconDroplet,
+  IconAlertTriangle,
+  IconWind,
+  IconCalendar,
+  IconCheck,
+} from '@tabler/icons-react'
 
 
 const TIPO_CONFIG = {
-  INCENDIO:   { emoji: '🔥', label: 'Incendio',   badgeCls: 'badge-incendio'   },
-  ACCIDENTE:  { emoji: '🚗', label: 'Accidente',  badgeCls: 'badge-accidente'  },
-  DERRUMBE:   { emoji: '⛰️', label: 'Derrumbe',   badgeCls: 'badge-derrumbe'   },
-  INUNDACION: { emoji: '💧', label: 'Inundación', badgeCls: 'badge-inundacion' },
-  FOCO:       { emoji: '⚠️', label: 'Foco',       badgeCls: 'badge-foco'       },
-  HUMO:       { emoji: '💨', label: 'Humo',       badgeCls: 'badge-humo'       },
+  INCENDIO:   { icon: IconFlame,         label: 'Incendio',   badgeCls: 'badge-incendio'   },
+  ACCIDENTE:  { icon: IconCar,           label: 'Accidente',  badgeCls: 'badge-accidente'  },
+  DERRUMBE:   { icon: IconMountain,      label: 'Derrumbe',   badgeCls: 'badge-derrumbe'   },
+  INUNDACION: { icon: IconDroplet,       label: 'Inundación', badgeCls: 'badge-inundacion' },
+  FOCO:       { icon: IconAlertTriangle, label: 'Foco',       badgeCls: 'badge-foco'       },
+  HUMO:       { icon: IconWind,          label: 'Humo',       badgeCls: 'badge-humo'       },
 }
 
 const STATUS_CONFIG = {
@@ -23,13 +33,13 @@ const STATUS_CONFIG = {
 }
 
 const FILTERS = [
-  { key: 'ALL',        label: 'All'           },
-  { key: 'INCENDIO',   label: '🔥 Incendio'   },
-  { key: 'ACCIDENTE',  label: '🚗 Accidente'  },
-  { key: 'DERRUMBE',   label: '⛰️ Derrumbe'   },
-  { key: 'INUNDACION', label: '💧 Inundación' },
-  { key: 'ACTIVE',     label: 'Active'        },
-  { key: 'Controlled', label: 'Controlled'    },
+  { key: 'ALL',        label: 'All',        icon: null              },
+  { key: 'INCENDIO',   label: 'Incendio',   icon: IconFlame         },
+  { key: 'ACCIDENTE',  label: 'Accidente',  icon: IconCar           },
+  { key: 'DERRUMBE',   label: 'Derrumbe',   icon: IconMountain      },
+  { key: 'INUNDACION', label: 'Inundación', icon: IconDroplet       },
+  { key: 'ACTIVE',     label: 'Active',     icon: null              },
+  { key: 'Controlled', label: 'Controlled', icon: null              },
 ]
 const PAGE_SIZE = 20
 
@@ -89,7 +99,8 @@ export default function DashboardPage() {
               onClick={() => setShowDateFilter(v => !v)}
               title="Filter by date"
             >
-              📅{hasDateFilter ? ' ✓' : ''}
+              <IconCalendar size={16} />
+              {hasDateFilter && <IconCheck size={14} />}
             </button>
             <span className="db-list-count">{filtered.length} report{filtered.length !== 1 ? 's' : ''}</span>
           </div>
@@ -127,15 +138,19 @@ export default function DashboardPage() {
         )}
 
         <div className="db-filters">
-          {FILTERS.map(f => (
-            <button
-              key={f.key}
-              className={`db-filter-chip ${filter === f.key ? 'active' : ''}`}
-              onClick={() => { setFilter(f.key); setPage(1); setSelected(null) }}
-            >
-              {f.label}
-            </button>
-          ))}
+          {FILTERS.map(f => {
+            const FilterIcon = f.icon
+            return (
+              <button
+                key={f.key}
+                className={`db-filter-chip ${filter === f.key ? 'active' : ''}`}
+                onClick={() => { setFilter(f.key); setPage(1); setSelected(null) }}
+              >
+                {FilterIcon && <FilterIcon size={14} />}
+                {f.label}
+              </button>
+            )
+          })}
         </div>
 
         {loading && <p className="db-state-msg">Loading reports...</p>}
@@ -145,7 +160,8 @@ export default function DashboardPage() {
         )}
 
         {paginated.map(r => {
-const tipo = TIPO_CONFIG[r.tipo] ?? TIPO_CONFIG.INCENDIO
+          const tipo = TIPO_CONFIG[r.tipo] ?? TIPO_CONFIG.INCENDIO
+          const TipoIcon = tipo.icon
           const status = STATUS_CONFIG[r.status] || STATUS_CONFIG.ACTIVE
           const dist   = userLocation
             ? haversineKm(userLocation.lat, userLocation.lng, r.lat, r.lng)
@@ -157,7 +173,9 @@ const tipo = TIPO_CONFIG[r.tipo] ?? TIPO_CONFIG.INCENDIO
               className={`db-card ${selected === r.id ? 'db-card--selected' : ''}`}
               onClick={() => setSelected(r.id)}
             >
-              <div className={`db-card-icon ${tipo.badgeCls}`}>{tipo.emoji}</div>
+              <div className={`db-card-icon ${tipo.badgeCls}`}>
+                <TipoIcon size={20} />
+              </div>
               <div className="db-card-info">
                 <p className="db-card-title">{r.title}</p>
                 <div className="db-card-meta">
@@ -181,6 +199,7 @@ const tipo = TIPO_CONFIG[r.tipo] ?? TIPO_CONFIG.INCENDIO
       {/* ── DETAIL PANEL ───────────────────────── */}
       {selectedReport && (() => {
         const tipo   = TIPO_CONFIG[selectedReport.tipo]    || TIPO_CONFIG.INCENDIO
+        const TipoIcon = tipo.icon
         const status = STATUS_CONFIG[selectedReport.status] || STATUS_CONFIG.ACTIVE
         const duration = Math.floor((Date.now() - new Date(selectedReport.created_at).getTime()) / 60000)
         const durationStr = duration < 60
@@ -193,7 +212,9 @@ const tipo = TIPO_CONFIG[r.tipo] ?? TIPO_CONFIG.INCENDIO
           <div className="db-detail">
             <div className="db-detail-header">
               <div className="db-detail-type-row">
-                <div className={`db-detail-icon ${tipo.badgeCls}`}>{tipo.emoji}</div>
+                <div className={`db-detail-icon ${tipo.badgeCls}`}>
+                  <TipoIcon size={22} />
+                </div>
                 <div>
                   <p className="db-detail-title">{selectedReport.title}</p>
                   <p className="db-detail-subtitle">{tipo.label} · reported {timeAgo(selectedReport.created_at)}</p>

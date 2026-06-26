@@ -1,27 +1,44 @@
 import { useState, useRef, useEffect } from "react";
 import { useAgent } from "../../hooks/useAgent.js";
-import "./FireAgentPanel.css";
+import '../../styles/components/agent/FireAgentPanel.css'
+// ─── Iconos de Tabler ────────────────────────────────────────────────────────
+import {
+  IconFlame,
+  IconX,
+  IconThermometer,
+  IconTruck,
+  IconFileText,
+  IconMapPin,
+  IconChartBar,
+  IconMessageChatbot,
+  IconSparkles,
+  IconSend,
+  IconRefresh,
+  IconAlertCircle,
+  IconUsers,
+  IconRadio,
+  IconBell,
+  IconLoader2,
+  IconCloud,
+  IconWind,
+  IconDroplet,
+  IconCheck,
+  IconExclamationCircle,
+} from "@tabler/icons-react";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
-const RISK_COLOR = {
-  BAJO:     "#22c55e",
-  MODERADO: "#eab308",
-  ALTO:     "#f97316",
-  EXTREMO:  "#dc2626",
-};
-
 const QUICK_PROMPTS = [
-  { label: "🌡️ Riesgo",    text: "¿Cuál es el riesgo de incendio en San Fernando hoy?" },
-  { label: "🚒 Brigadas",  text: "¿Qué brigadas están disponibles?"                    },
-  { label: "📋 Reportes",  text: "¿Hay reportes activos en este momento?"              },
-  { label: "🚛 Unidades",  text: "¿Hay unidades en campo?"                             },
-  { label: "📊 Situación", text: "Análisis completo de situación"                      },
+  { label: "Riesgo",    text: "¿Cuál es el riesgo de incendio en San Fernando hoy?", icon: IconThermometer },
+  { label: "Brigadas",  text: "¿Qué brigadas están disponibles?", icon: IconUsers },
+  { label: "Reportes",  text: "¿Hay reportes activos en este momento?", icon: IconFileText },
+  { label: "Unidades",  text: "¿Hay unidades en campo?", icon: IconTruck },
+  { label: "Situación", text: "Análisis completo de situación", icon: IconChartBar },
 ];
 
 const TABS = [
-  { id: "chat",    label: "💬 Agente"   },
-  { id: "metrics", label: "📊 Métricas" },
+  { id: "chat",    label: "Agente", icon: IconMessageChatbot },
+  { id: "metrics", label: "Métricas", icon: IconChartBar },
 ];
 
 // ─── Sub-componentes ──────────────────────────────────────────────────────────
@@ -42,7 +59,11 @@ function ChatMessage({ msg }) {
   const isUser = msg.role === "user";
   return (
     <div className={`fap-msg fap-msg--${isUser ? "user" : "bot"}`}>
-      {!isUser && <div className="fap-msg__avatar">🤖</div>}
+      {!isUser && (
+        <div className="fap-msg__avatar">
+          <IconSparkles size={20} stroke={1.5} />
+        </div>
+      )}
       <div className="fap-msg__bubble">
         <p className="fap-msg__text">{msg.content}</p>
         {!isUser && <RiskBadge level={msg.risk} />}
@@ -54,7 +75,9 @@ function ChatMessage({ msg }) {
 function TypingIndicator() {
   return (
     <div className="fap-msg fap-msg--bot">
-      <div className="fap-msg__avatar">🤖</div>
+      <div className="fap-msg__avatar">
+        <IconSparkles size={20} stroke={1.5} />
+      </div>
       <div className="fap-typing">
         <span /><span /><span />
       </div>
@@ -62,10 +85,13 @@ function TypingIndicator() {
   );
 }
 
-function MetricCard({ title, value, subtitle, color }) {
+function MetricCard({ title, value, subtitle, color, icon: Icon }) {
   return (
     <div className="fap-metric-card">
-      <div className="fap-metric-card__label">{title}</div>
+      <div className="fap-metric-card__label">
+        {Icon && <Icon size={18} stroke={1.5} style={{ marginRight: 6 }} />}
+        {title}
+      </div>
       <div className="fap-metric-card__value" style={{ color }}>
         {value}
       </div>
@@ -121,7 +147,7 @@ export default function FireAgentPanel() {
         aria-label="Agente Valle del Sol"
         title="Agente Valle del Sol"
       >
-        {open ? "✕" : "🔥"}
+        {open ? <IconX size={24} stroke={2} /> : <IconFlame size={24} stroke={2} />}
       </button>
 
       {/* ── Panel ── */}
@@ -131,10 +157,11 @@ export default function FireAgentPanel() {
           {/* Header + Tabs */}
           <div className="fap-header">
             <div className="fap-header__title">
-              <span aria-hidden>🔥</span> Agente Valle del Sol
+              <IconFlame size={22} stroke={1.5} style={{ marginRight: 8 }} /> 
+              Agente Valle del Sol
             </div>
             <div className="fap-tabs" role="tablist">
-              {TABS.map(({ id, label }) => (
+              {TABS.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
                   role="tab"
@@ -142,6 +169,7 @@ export default function FireAgentPanel() {
                   className={`fap-tab ${activeTab === id ? "fap-tab--active" : ""}`}
                   onClick={() => setActiveTab(id)}
                 >
+                  <Icon size={18} stroke={1.5} style={{ marginRight: 6 }} />
                   {label}
                 </button>
               ))}
@@ -158,20 +186,24 @@ export default function FireAgentPanel() {
                 ))}
                 {loading && <TypingIndicator />}
                 {error && (
-                  <div className="fap-alert fap-alert--error">{error}</div>
+                  <div className="fap-alert fap-alert--error">
+                    <IconAlertCircle size={18} stroke={1.5} style={{ marginRight: 8 }} />
+                    {error}
+                  </div>
                 )}
                 <div ref={messagesEndRef} />
               </div>
 
               {/* Quick prompts */}
               <div className="fap-quick">
-                {QUICK_PROMPTS.map(({ label, text }) => (
+                {QUICK_PROMPTS.map(({ label, text, icon: Icon }) => (
                   <button
                     key={label}
                     className="fap-quick__btn"
                     onClick={() => sendMessage(text)}
                     disabled={loading}
                   >
+                    <Icon size={16} stroke={1.5} style={{ marginRight: 4 }} />
                     {label}
                   </button>
                 ))}
@@ -195,7 +227,7 @@ export default function FireAgentPanel() {
                   disabled={loading || !input.trim()}
                   aria-label="Enviar mensaje"
                 >
-                  ➤
+                  <IconSend size={20} stroke={2} />
                 </button>
               </div>
             </div>
@@ -208,14 +240,17 @@ export default function FireAgentPanel() {
               {/* Loading */}
               {metricsLoading && (
                 <div className="fap-metrics__loading">
-                  <div className="fap-spinner" />
+                  <IconLoader2 size={28} stroke={1.5} className="fap-spinner" />
                   <span>Cargando métricas…</span>
                 </div>
               )}
 
               {/* Error métricas */}
               {metricsError && !metricsLoading && (
-                <div className="fap-alert fap-alert--error">{metricsError}</div>
+                <div className="fap-alert fap-alert--error">
+                  <IconAlertCircle size={18} stroke={1.5} style={{ marginRight: 8 }} />
+                  {metricsError}
+                </div>
               )}
 
               {/* Datos */}
@@ -224,34 +259,39 @@ export default function FireAgentPanel() {
                   {/* Grid de cards */}
                   <div className="fap-metrics__grid">
                     <MetricCard
-                      title="🌡️ Riesgo Climático"
+                      title="Riesgo Climático"
                       value={metrics.clima?.nivel_riesgo ?? "—"}
                       subtitle={climaSubtitle}
                       color={RISK_COLOR[metrics.clima?.nivel_riesgo] ?? "#94a3b8"}
+                      icon={IconCloud}
                     />
                     <MetricCard
-                      title="🚒 Brigadas"
+                      title="Brigadas"
                       value={`${metrics.brigadas?.activas ?? 0} / ${metrics.brigadas?.total ?? 0}`}
                       subtitle="activas / total"
                       color="#60a5fa"
+                      icon={IconUsers}
                     />
                     <MetricCard
-                      title="📋 Reportes"
+                      title="Reportes"
                       value={`${metrics.reportes?.activos ?? 0} / ${metrics.reportes?.total ?? 0}`}
                       subtitle="activos / total"
                       color="#f97316"
+                      icon={IconFileText}
                     />
                     <MetricCard
-                      title="🚛 En Campo"
+                      title="En Campo"
                       value={metrics.unidades_desplegadas?.total ?? 0}
                       subtitle="unidades desplegadas"
                       color="#a78bfa"
+                      icon={IconTruck}
                     />
                     <MetricCard
-                      title="🔔 Alertas"
+                      title="Alertas"
                       value={metrics.alertas?.pendientes ?? 0}
                       subtitle={`de ${metrics.alertas?.total ?? 0} totales`}
                       color={metrics.alertas?.pendientes > 0 ? "#dc2626" : "#22c55e"}
+                      icon={IconBell}
                     />
                   </div>
 
@@ -259,6 +299,7 @@ export default function FireAgentPanel() {
                   {(metrics.reportes?.ultimos_activos?.length ?? 0) > 0 && (
                     <div className="fap-report-list">
                       <div className="fap-report-list__title">
+                        <IconFileText size={18} stroke={1.5} style={{ marginRight: 8 }} />
                         Reportes activos recientes
                       </div>
                       {metrics.reportes.ultimos_activos.map((r) => (
@@ -273,6 +314,7 @@ export default function FireAgentPanel() {
                   {/* Footer */}
                   <div className="fap-metrics__footer">
                     <span className="fap-metrics__zona">
+                      <IconMapPin size={16} stroke={1.5} style={{ marginRight: 4 }} />
                       {metrics.zona_referencia}
                     </span>
                     <button
@@ -280,7 +322,8 @@ export default function FireAgentPanel() {
                       onClick={loadMetrics}
                       disabled={metricsLoading}
                     >
-                      🔄 Actualizar
+                      <IconRefresh size={18} stroke={1.5} style={{ marginRight: 6 }} />
+                      Actualizar
                     </button>
                   </div>
                 </>

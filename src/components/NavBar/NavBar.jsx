@@ -21,31 +21,21 @@ export default function NavBar() {
   const { user } = useAuthContext()
   const { theme, toggleTheme } = useTheme()
 
-  const links = [
-    { label: 'Home',       ruta: '/home',       icon: <IconHome size={16} /> },
-    { label: 'Reports',    ruta: '/dashboard',  icon: <IconClipboardList size={16} /> },
-    { label: 'Fire map',   ruta: '/map',        icon: <IconMap size={16} /> },
+const links = [
+    { label: 'Home', ruta: '/home' },
+    { label: 'Reports', ruta: '/dashboard' },
+    { label: 'Fire map', ruta: '/map' },
     ...(user?.role === 'admin' ? [
-      { label: 'Overview', ruta: '/admin/home', icon: <IconLayoutDashboard size={16} /> },
-      { label: 'Panel',    ruta: '/admin',      icon: <IconSettings size={16} /> },
+      { label: 'Overview', ruta: '/admin/home' },
+      { label: 'Panel', ruta: '/admin' },
     ] : []),
   ]
 
   const mobileLinks = [
-    { label: 'Profile', ruta: '/profile', icon: <IconUser size={16} /> },
     ...links,
   ]
 
-  const mobileActions = [
-    {
-      label: 'Toggle theme',
-      action: () => {
-        toggleTheme()
-        setMenuAbierto(false)
-      },
-      icon: theme === 'light' ? <IconMoon size={16} /> : <IconSun size={16} />,
-    },
-  ]
+  const mobileActions = []
 
   return (
     <>

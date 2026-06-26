@@ -5,20 +5,16 @@
   font-family: Arial, sans-serif;
 }
 
-.adminhome-loading { font-size: 14px; color: var(--color-text-secondary, #888); }
+.adminhome-loading { font-size: 14px; color: var(--text-muted); }
 
 .adminhome-page-title {
   font-size: 20px;
   font-weight: 500;
-  color: #333333;
+  color: var(--text-primary);
   margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-[data-theme="dark"] .adminhome-page-title {
-  color: var(--text-primary);
 }
 
 /* ── EMERGENCY BANNER ───────────────────────────── */
@@ -67,36 +63,24 @@
 }
 
 .adminhome-stat-card {
-  background: #f5f5f5;
+  background: var(--bg-input);
+  border: 0.5px solid var(--border);
   border-radius: 8px;
   padding: 14px 16px;
   position: relative;
   overflow: hidden;
 }
 
-[data-theme="dark"] .adminhome-stat-card {
-  background: var(--bg-card);
-  border: 0.5px solid var(--border);
-}
-
 .adminhome-stat-label {
   font-size: 12px;
-  color: #888888;
+  color: var(--text-muted);
   margin-bottom: 6px;
-}
-
-[data-theme="dark"] .adminhome-stat-label {
-  color: var(--text-secondary);
 }
 
 .adminhome-stat-value {
   font-size: 28px;
   font-weight: 500;
   line-height: 1;
-  color: #333333;
-}
-
-[data-theme="dark"] .adminhome-stat-value {
   color: var(--text-primary);
 }
 
@@ -128,16 +112,11 @@
 
 .adminhome-panel {
   position: relative;
-  background: white;
-  border: 0.5px solid #e0e0e0;
+  background: var(--bg-card);
+  border: 0.5px solid var(--border);
   border-radius: 10px;
   padding: 16px;
   overflow: hidden;
-}
-
-[data-theme="dark"] .adminhome-panel {
-  background: var(--bg-card);
-  border: 0.5px solid var(--border);
 }
 
 .adminhome-panel--mt { margin-top: 12px; }
@@ -149,12 +128,8 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: .5px;
-  color: #888888;
+  color: var(--text-muted);
   margin-bottom: 14px;
-}
-
-[data-theme="dark"] .adminhome-panel-title {
-  color: var(--text-secondary);
 }
 
 /* ── BAR CHART ──────────────────────────────────── */
@@ -191,21 +166,13 @@
 
 .adminhome-chart-label {
   font-size: 11px;
-  color: #888888;
+  color: var(--text-muted);
   text-align: center;
-}
-
-[data-theme="dark"] .adminhome-chart-label {
-  color: var(--text-secondary);
 }
 
 .adminhome-chart-count {
   font-size: 13px;
   font-weight: 500;
-  color: #333333;
-}
-
-[data-theme="dark"] .adminhome-chart-count {
   color: var(--text-primary);
 }
 
@@ -227,16 +194,12 @@
 .adminhome-bar-track {
   flex: 1;
   min-width: 0;
-  background: #f5f5f5;
+  background: var(--bg-input);
   border-radius: 4px;
   height: 6px;
   overflow: hidden;
 }
 
-[data-theme="dark"] .adminhome-bar-track {
-  background: var(--bg-input);
-}
-
 .adminhome-bar-fill {
   height: 100%;
   border-radius: 4px;
@@ -247,47 +210,11 @@
 .adminhome-scount {
   font-size: 13px;
   font-weight: 500;
-  color: #333333;
+  color: var(--text-primary);
   min-width: 20px;
   text-align: right;
   flex-shrink: 0;
   white-space: nowrap;
-}
-
-.adminhome-sbadge {
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-
-[data-theme="dark"] .adminhome-bar-track {
-  background: var(--bg-input);
-}
-
-.adminhome-bar-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width .6s ease;
-  max-width: 100%;
-}
-
-.adminhome-scount {
-  font-size: 13px;
-  font-weight: 500;
-  color: #333333;
-  min-width: 20px;
-  text-align: right;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-[data-theme="dark"] .adminhome-scount {
-  color: var(--text-primary);
-}
-
-
-[data-theme="dark"] .adminhome-scount {
-  color: var(--text-primary);
 }
 
 /* ── BADGES ─────────────────────────────────────── */
@@ -301,17 +228,17 @@
   min-width: 82px;
   text-align: center;
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .sbadge-active     { background: #FCEBEB; color: #A32D2D; }
 .sbadge-controlled { background: #FAEEDA; color: #854F0B; }
 .sbadge-reviewed   { background: #EAF3DE; color: #3B6D11; }
-.sbadge-dismissed  { background: #f5f5f5; color: #888888; }
+.sbadge-dismissed  { background: var(--bg-input); color: var(--text-muted); }
 
 [data-theme="dark"] .sbadge-active     { background: rgba(162,45,45,0.2); color: #f09595; }
 [data-theme="dark"] .sbadge-controlled { background: rgba(133,79,11,0.2); color: #FAC775; }
 [data-theme="dark"] .sbadge-reviewed   { background: rgba(59,109,17,0.2); color: #C0DD97; }
-[data-theme="dark"] .sbadge-dismissed  { background: var(--bg-input); color: var(--text-secondary); }
 
 /* ── TABLE ──────────────────────────────────────── */
 
@@ -326,40 +253,25 @@
 .adminhome-table th {
   text-align: left;
   padding: 8px 10px;
-  background: #f9f9f9;
-  color: #888888;
+  background: var(--bg-input);
+  color: var(--text-muted);
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: .5px;
-  border-bottom: 0.5px solid #e0e0e0;
-}
-
-[data-theme="dark"] .adminhome-table th {
-  background: var(--bg-input);
-  color: var(--text-secondary);
   border-bottom: 0.5px solid var(--border);
 }
 
 .adminhome-table td {
   padding: 9px 10px;
-  border-bottom: 0.5px solid #f0f0f0;
-  color: #333333;
-}
-
-[data-theme="dark"] .adminhome-table td {
   border-bottom: 0.5px solid var(--border);
   color: var(--text-primary);
 }
 
 .adminhome-table tr:last-child td { border-bottom: none; }
-.adminhome-table tr:hover td { background: #fafafa; }
+.adminhome-table tr:hover td { background: var(--bg-input); }
 
-[data-theme="dark"] .adminhome-table tr:hover td { background: rgba(255,255,255,0.05); }
-
-.adminhome-muted { font-size: 12px; color: #888888; }
-
-[data-theme="dark"] .adminhome-muted { color: var(--text-secondary); }
+.adminhome-muted { font-size: 12px; color: var(--text-muted); }
 
 /* ── BRIGADES ───────────────────────────────────── */
 
@@ -370,7 +282,7 @@
 }
 
 .adminhome-bchip {
-  background: #f9f9f9;
+  background: var(--bg-input);
   border-left: 3px solid #E24B4A;
   border-radius: 0 8px 8px 0;
   padding: 8px 12px;
@@ -380,35 +292,18 @@
   min-width: 140px;
 }
 
-[data-theme="dark"] .adminhome-bchip {
-  background: var(--bg-input);
-  border-left-color: #f09595;
-}
-
 .adminhome-bchip--inactive {
-  border-left-color: #cccccc;
+  border-left-color: var(--border);
   opacity: .6;
-}
-
-[data-theme="dark"] .adminhome-bchip--inactive {
-  border-left-color: rgba(240,149,149,0.4);
 }
 
 .adminhome-bchip-name {
   font-size: 13px;
   font-weight: 500;
-  color: #333333;
-}
-
-[data-theme="dark"] .adminhome-bchip-name {
   color: var(--text-primary);
 }
 
 .adminhome-bchip-meta {
   font-size: 11px;
-  color: #888888;
-}
-
-[data-theme="dark"] .adminhome-bchip-meta {
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
